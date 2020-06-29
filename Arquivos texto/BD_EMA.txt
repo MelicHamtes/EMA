@@ -1,0 +1,11 @@
+deck (
+	codigo INTEGER
+	nome VARCHAR
+)
+
+flash_cards(
+	codigo_deck INTEGER 
+	frente_card VARCHAR
+	verso_card VARCHAR
+	codigo_card INTEGER NOT NULL
+)

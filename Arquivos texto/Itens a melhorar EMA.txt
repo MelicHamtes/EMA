@@ -1,0 +1,9 @@
+1- Quando uma janela linkar outra minizar a primeira e quando a segunda fechar,
+abrir a primeira  novamente;
+2- Cores das janelas
+3- tamanho das janelas
+4- explicaçoes sobre o que fazer
+5- exṕlicações sobre o software
+6- tema escuro caso o usuário deseje
+7- fotos como icones para a janela
+ 

@@ -1,0 +1,31 @@
+1- SRS
+	1.1 - flashcards (50%)
+	1.2 - adicionar cards (70%)
+	1.3 - remover cards (70%)
+	1.4 - interface de conjuntos de cards (50%)
+	1.5 - Tratamento de erros (30%)
+
+2- Temporizador (DESCONTINUADO)
+	2.1 - codigo do temporizador (DESCONTINUADO) 
+	2.2 - interface temporizador (DESCONTINUADO)
+	2.3 - Tratamento de erros (DESCONTINUADO)
+
+3- Gerador de metas (DESCONTINUADO)
+
+4- Estatistcas
+	4.1 - pegar numero de cartões estudados
+	4.2 - aplicar fórmulas
+	4.3 - saída de dados
+	4.4 - Tratamento de erros
+
+5- Aba de informações
+	5.1 - dados pomodoro
+	5.2 - dados SRS (100%)
+	5.3 - dados sobre a criação
+
+6- Interface gráfica
+	6.1 - SRS (80%)
+	6.2 - Temporizador
+	6.3 - Estatísticas
+	6.4 - Aba de informações(100%)
+	6.5 - Menu (50%)

@@ -1,0 +1,2 @@
+lincar a primeira tabela com uma segunda, que possui como chave primária (extrangeira)
+o deck de cada card, que será uma coluna na tabela de cards para a referência de cada card;
