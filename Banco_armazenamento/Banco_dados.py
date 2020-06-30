@@ -60,7 +60,7 @@ class Banco_dados:
 		codigo = codigo[0]
 		return codigo
 
-	def puxar_codigo(self, frente):
+	def puxar_codigo_card(self, frente):
 		self.cursor.execute('SELECT codigo_card FROM flash_cards WHERE frente_card = (?)', (frente,))
 		codigo = self.cursor.fetchone()
 		codigo = codigo[0]

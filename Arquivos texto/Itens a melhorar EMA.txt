@@ -6,4 +6,7 @@ abrir a primeira  novamente;
 5- exṕlicações sobre o software
 6- tema escuro caso o usuário deseje
 7- fotos como icones para a janela
- 
+8- Ao criar deck, abrir opção de edição de cards ou sair 
+9- Ao criar deck, se com sucesso, informar usuário
+10- Caso usuário tentar abrir deck e não possuir nenhum, exibir opção para criação
+11- Não aceitar nome de deck como vazio
