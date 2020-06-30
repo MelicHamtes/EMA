@@ -12,18 +12,19 @@ class Controlador:
 
 	@deck.setter
 	def deck(self, deck):
-		for index in range(len(deck)):
-			if deck[0].isdigit():
-				deck = deck.replace(deck[0], '')
-			cont = 0
-			while cont < len(deck):
-				deck = deck.lower()
-				if deck[cont] == ' ':
-					deck = deck.replace(deck[cont],'')
-				if deck[cont] == '_':
-					deck = deck.replace(deck[cont], '')
-				cont += 1	
-		self._deck = deck
+		if deck != '':
+			for index in range(len(deck)):
+				cont = 0
+				while cont < len(deck):
+					deck = deck.lower()
+					if deck[0] == ' ':
+						deck = deck.replace(deck[cont],'')
+					if deck[cont] == '_':
+						deck = deck.replace(deck[cont], '')
+					cont += 1	
+			self._deck = deck
+		else:
+			return None
 
 	@property
 	def frente(self):

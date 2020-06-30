@@ -1,5 +1,5 @@
 import tkinter 
-from Deck import Deck, Deck_Estudo
+from Deck import Configuracoes_deck, Estudar
 from Informacoes import Informacoes
 import sys
 
@@ -30,11 +30,11 @@ class Menu:
 		self.janela.mainloop()
 		 	
 	def estudar(self):
-		deck = Deck_Estudo()
+		deck = Estudar()
 		menu = Menu()
 
 	def config_cards(self):
-		deck = Deck()
+		deck = Configuracoes_deck()
 		menu = Menu()
 
 	def info(self):

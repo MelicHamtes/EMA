@@ -8,7 +8,7 @@ from Controlador_acesso import Controlador
 from Flash_card import Flash_Card 
 from InserirDeletarCards import IDC
 
-class Deck:
+class Configuracoes_deck:
 	def __init__(self):
 		self.janela_deck = tkinter.Tk()
 		self.janela_deck.title('Decks')
@@ -55,7 +55,7 @@ class Deck:
 	# Fecha janela principal (esta classe) e em seguia a abre novamente para atualização dos banco de dados 	
 	def atualizar(self):
 		self.janela_deck.destroy()
-		deck = Deck() 
+		deck = Configuracoes_deck() 
 
 	# Janela de toplevel com entrada para adicionar um deck (banco de dados)
 	def janela_adicionar_decks(self):
@@ -93,8 +93,8 @@ class Deck:
 		"""
 		self.bt2['state'] = tkinter.DISABLED
 		self.janela_deck.destroy()
-		deck_estudo = Deck_Estudo()
-		jd = Deck()
+		deck_estudo = Estudar()
+		jd = Configuracoes_deck()
 	
 	# Janela de toplevel para selecionar deck (banco de dados) e abrir janela na qual os cards serão modificados
 	def janela_editar_decks(self):
@@ -134,14 +134,18 @@ class Deck:
 	def adicionar_decks(self):
 		try:
 			nome_deck = self.ent2.get()
+			print(nome_deck)
 			self.control.deck = nome_deck
+			print(self.control.deck)
 			# Fazer ligação ao banco de dados
 			bd = Banco_dados()
+			if self.control.deck == None:
+				raise Exception('Vazio') 
 			bd.conectar()
 			bd.inserir_deck(self.control.deck)
 			self.atualizar()
 			bd.fechar_banco()
-		except:
+		except (Exception):
 			messagebox.showerror('Erro','Nada foi escrito')
 
 	def fechar_toplevel(self, toplevel):
@@ -167,7 +171,7 @@ class Deck:
 			self.fechar_toplevel(self.toplevel_3)
 			self.janela_deck.destroy()
 			idc = IDC(item_selecionado_listbox)
-			jd = Deck()
+			jd = Configuracoes_deck()
 		except(IndexError):
 			messagebox.showerror('Erro', 'Nenhum deck foi selecionado')
 
@@ -198,7 +202,7 @@ class Deck:
 Classe será chamada sempre que se quiser abrir os cards para estudo; classe no botão do MENU_ESTUDAR
 e ABRIR em CONF. CARDS
 """
-class Deck_Estudo:
+class Estudar:
 	def __init__(self):
 		self.janela_estudo = tkinter.Tk()
 		self.janela_estudo.geometry('300x200')
@@ -298,11 +302,11 @@ class Deck_Estudo:
 		if self.modo == 'padrão':
 			self.janela_estudo.destroy()
 			fc = Flash_Card(self.item_selecionado_listbox,self.modo)
-			deck_estudo = Deck_Estudo()
+			deck_estudo = Estudar()
 		elif self.modo == 'numero de cards':
 			self.janela_estudo.destroy()
 			fc = Flash_Card(self.item_selecionado_listbox, self.modo, self.numero_cards)
-			deck_estudo = Deck_Estudo()
+			deck_estudo = Estudar()
 
 	def fechar_toplevel(self, toplevel):
 		toplevel.destroy()
