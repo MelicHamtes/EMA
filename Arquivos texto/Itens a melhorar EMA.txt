@@ -10,3 +10,4 @@ abrir a primeira  novamente;
 9- Ao criar deck, se com sucesso, informar usuário
 10- Caso usuário tentar abrir deck e não possuir nenhum, exibir opção para criação
 11- Não aceitar nome de deck como vazio
+12- Programar numero de dias para estudar
