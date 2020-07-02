@@ -6,7 +6,7 @@ import sys
 class Menu:
 	def __init__(self):
 		self.janela = tkinter.Tk()
-		self.janela.geometry('600x400+500+200')
+		self.janela.geometry('600x400+500+300')
 		self.janela.title('Menu EMA')
 		self.janela.resizable(0,0)
 		self.janela.protocol('WM_DELETE_WINDOW', lambda: sys.exit())
