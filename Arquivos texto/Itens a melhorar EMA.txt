@@ -1,9 +1,9 @@
 1- Quando uma janela linkar outra minizar a primeira e quando a segunda fechar,
-abrir a primeira  novamente;
+abrir a primeira  novamente *
 2- Cores das janelas
-3- tamanho das janelas
+3- tamanho das janelas *
 4- explicaçoes sobre o que fazer
-5- exṕlicações sobre o software
+5- explicações sobre o software
 6- tema escuro caso o usuário deseje
 7- fotos como icones para a janela
 8- Ao criar deck, abrir opção de edição de cards ou sair 
@@ -11,3 +11,7 @@ abrir a primeira  novamente;
 10- Caso usuário tentar abrir deck e não possuir nenhum, exibir opção para criação
 11- Não aceitar nome de deck como vazio
 12- Programar numero de dias para estudar
+13- Remover botão pesquisar, e quando usuário escolher cartão através da janela exibir cartões
+14- Renomear deck
+15- Proprieda de baralho
+16- mudar cor de janela
