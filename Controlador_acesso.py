@@ -13,12 +13,12 @@ class Controlador:
 	@deck.setter
 	def deck(self, deck):
 		if deck != '':
+			if deck[0] == ' ':
+				deck = deck.replace(deck[cont],'')
 			for index in range(len(deck)):
 				cont = 0
 				while cont < len(deck):
 					deck = deck.lower()
-					if deck[0] == ' ':
-						deck = deck.replace(deck[cont],'')
 					if deck[cont] == '_':
 						deck = deck.replace(deck[cont], '')
 					cont += 1	
