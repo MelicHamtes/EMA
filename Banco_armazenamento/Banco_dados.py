@@ -33,6 +33,10 @@ class Banco_dados:
 		self.conexao.commit()
 
 	def deletar_deck(self, nome_deck):
+		self.cursor.execute('SELECT codigo FROM deck WHERE nome = (?)', (nome_deck,))
+		codigo = self.cursor.fetchall()
+		codigo = int(codigo[0][0])
+		self.cursor.execute('DELETE FROM flash_cards where codigo_deck = (?)', (codigo,))
 		self.cursor.execute('DELETE FROM deck WHERE nome = (?)', (nome_deck,))
 		self.conexao.commit()
 
