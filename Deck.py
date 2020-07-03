@@ -6,7 +6,7 @@ from tkinter import messagebox
 from Banco_armazenamento.Banco_dados import Banco_dados
 from Controlador_acesso import Controlador
 from Flash_card import Flash_Card 
-from InserirDeletarCards import IDC
+from InserirDeletarCards import Editar_cartoes
 
 class Configuracoes_deck:
 	def __init__(self):
@@ -170,7 +170,7 @@ class Configuracoes_deck:
 			item_selecionado_listbox = self.listbox_2.get(item_selecionado_listbox[0])
 			self.fechar_toplevel(self.toplevel_3)
 			self.janela_deck.destroy()
-			idc = IDC(item_selecionado_listbox)
+			idc = Editar_cartoes(item_selecionado_listbox)
 			jd = Configuracoes_deck()
 		except(IndexError):
 			messagebox.showerror('Erro', 'Nenhum deck foi selecionado')
