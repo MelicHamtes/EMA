@@ -30,7 +30,7 @@ class Informacoes:
 
 		link3 = tk.Label(self.janela_info, text="Como usar a técnica da Repetição Espaçada para relembrar tudo o que você já estudou", fg="blue", cursor="hand2")
 		link3.pack()
-		link3.bind("Button-1", lambda e: self.callback("https://mude.vc/repeticao-espacada/"))
+		link3.bind("<Button-1>", lambda e: self.callback("https://mude.vc/repeticao-espacada/"))
 
 		self.janela_info.mainloop()
 
