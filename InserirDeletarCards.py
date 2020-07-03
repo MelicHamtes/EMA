@@ -4,7 +4,7 @@ from Banco_armazenamento.Banco_dados import Banco_dados
 from Controlador_acesso import Controlador
 import sys
 
-class IDC:
+class Editar_cartoes:
 	def __init__(self, nome_deck):
 		self.janela = tkinter.Tk()
 		self.janela.title('Configurações de card')
