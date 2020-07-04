@@ -195,13 +195,14 @@ class Editar_cartoes:
 		try:
 			deck = self.bd.puxar_deck(self.codigo_deck)
 			deck_keys = list(deck.keys())
+			print(deck)
 
 			i = 0
 			i_2 = 1
 			for chave, valor in deck.items():
 				i_2 = 1
-				cod = self.bd.puxar_codigo(deck_keys[i])
-				a = str(cod) + '- ' + str(deck_keys[i])+':'+ str(deck[chave])	
+				cod = self.bd.puxar_codigo_card(deck_keys[i])
+				a = str(i_2) + '- ' + str(deck_keys[i])+':'+ str(deck[chave])	
 				listbox.insert(i_2, a)
 				i_2 += 1
 				i += 1

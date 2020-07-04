@@ -78,6 +78,12 @@ class Banco_dados:
 			deck.append(nome)
 		return deck
 
+	def criar_login(self, nome, username, senha, email):
+		pass
+		
+	def puxar_login(self):
+		pass
+
 	def fechar_banco(self):
 		self.cursor.close()
 		self.conexao.close()	
