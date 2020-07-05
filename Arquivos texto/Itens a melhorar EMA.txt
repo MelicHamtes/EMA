@@ -13,5 +13,5 @@ abrir a primeira  novamente *
 12- Programar numero de dias para estudar
 13- Remover botão pesquisar, e quando usuário escolher cartão através da janela exibir cartões
 14- Renomear deck
-15- Proprieda de baralho
+15- Propriedade para baralho
 16- mudar cor de janela

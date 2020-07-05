@@ -31,22 +31,28 @@ class Configuracoes_deck:
 		    #self.lista_decks = os.listdir(self.dir_path)
 
 		#print(self.lista_decks, type(self.lista_decks)) #Teste
+		self.frame = tkinter.Frame(self.janela_deck)
+		self.frame.pack()
+		self.mb =  tkinter.Menubutton ( self.frame, text = "Deck", relief = tkinter.RAISED )
+		self.mb.pack(side=tkinter.LEFT)
+		self.mb.menu  =  tkinter.Menu ( self.mb, tearoff = 0 )
+		self.mb["menu"]  =  self.mb.menu
 
-		self.bt1 = tkinter.Button(self.janela_deck, text='Criar Deck', command=self.janela_adicionar_decks)
-		self.bt1.place(x=20,y=10)
+		self.mb.menu.add_command(label='Criar Deck', command=self.janela_adicionar_decks)
+		#self.bt1.place(x=20,y=10)
 
-		self.bt2 = tkinter.Button(self.janela_deck, text='Abrir Deck', command=self.janela_abrir_decks)
-		self.bt2.place(x=20,y=55)
+		self.bt2 = tkinter.Button(self.frame, text='Abrir Deck', command=self.janela_abrir_decks)
+		#self.bt2.place(x=20,y=55)
+		self.bt2.pack(side=tkinter.LEFT)
+		self.mb.menu.add_command(label='Editar cards', command=self.janela_editar_decks)
+		#self.bt3.place(x=97,y=10)
 
-		self.bt3 = tkinter.Button(self.janela_deck, text='Editar cards', command=self.janela_editar_decks)
-		self.bt3.place(x=97,y=10)
-
-		self.bt4 = tkinter.Button(self.janela_deck, text='Deletar deck', command=self.janela_deletar_decks)
-		self.bt4.place(x=95,y=55)
+		self.mb.menu.add_command(label='Deletar deck', command=self.janela_deletar_decks)
+		#self.bt4.place(x=95,y=55)
 
 		#self.bt5 = tkinter.Button(self.janela_deck, text='<--', command=self.retornar, bd=0)
 		#self.bt5.place(x=0,y=0)
-
+		self.mb.pack()
 		self.janela_deck.mainloop()
 
 	#def retornar(self):
@@ -150,10 +156,11 @@ class Configuracoes_deck:
 
 	def fechar_toplevel(self, toplevel):
 		toplevel.destroy()
-		self.bt1['state'] = tkinter.NORMAL
+		self.mb['state'] = tkinter.NORMAL
+		#self.bt1['state'] = tkinter.NORMAL
 		self.bt2['state'] = tkinter.NORMAL
-		self.bt3['state'] = tkinter.NORMAL
-		self.bt4['state'] = tkinter.NORMAL
+		#self.bt3['state'] = tkinter.NORMAL
+		#self.bt4['state'] = tkinter.NORMAL
 
 	# Item selecionado irá abrir a janela de estudo
 	"""
@@ -189,10 +196,11 @@ class Configuracoes_deck:
 			messagebox.showerror('Erro','Nenhum deck foi selecionado')
 
 	def bloquear_botoes(self):
-		self.bt1['state'] = tkinter.DISABLED
+		self.mb['state'] = tkinter.DISABLED
+		#self.bt1['state'] = tkinter.DISABLED
 		self.bt2['state'] = tkinter.DISABLED
-		self.bt3['state'] = tkinter.DISABLED
-		self.bt4['state'] = tkinter.DISABLED	
+		#self.bt3['state'] = tkinter.DISABLED
+		#self.bt4['state'] = tkinter.DISABLED	
 
 	def fechar_janela(self, janela):
 		self.valor = False

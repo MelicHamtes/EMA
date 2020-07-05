@@ -41,4 +41,3 @@ class Menu:
 		info = Informacoes()
 		menu = Menu()
 
-menu = Menu()
