@@ -6,7 +6,7 @@ bd.conectar()
 
 iterador = True
 while iterador == True:
-    print('o que deseja fazer?\n1: inserir deck\n2: inserir card\n3: deletar card\n4: puxar card\n5: puxar deck\n 6 listar deck')
+    print('o que deseja fazer?\n1: inserir deck\n2: inserir card\n3: deletar card\n4: puxar card\n5: puxar deck\n 6 listar deck\n 7 puxar codigod deck')
     resposta = int(input())
     if resposta == 1:
         entrada = str(input('insira o nome do deck\n'))
@@ -29,6 +29,9 @@ while iterador == True:
         print(bd.puxar_deck(n_deck))
     elif resposta == 6:
         print(bd.listar_decks(), type(bd.listar_decks()))
+    elif resposta == 7:
+        nome_deck = input()
+        print(bd.puxar_codigo_deck(nome_deck))
 
     resposta2 = input('Deseja continuar?\n')
     if resposta2.upper() == 'S':

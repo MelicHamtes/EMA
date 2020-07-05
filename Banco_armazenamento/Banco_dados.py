@@ -2,7 +2,8 @@ import sqlite3
 import os
 import sys
 import platform
-import mysql.connector
+
+
 class Banco_dados:
 	def __init__(self, nome_conjunto=None):
 		if platform.system() == 'Linux':
@@ -15,19 +16,20 @@ class Banco_dados:
 	def conectar(self):
 		self.conexao = sqlite3.connect(self.dir_path)
 		self.cursor = self.conexao.cursor()
+		self.cursor.execute('PRAGMA foreign_keys=ON')
 
 	def criar_banco(self):
 		self.conexao.execute('CREATE TABLE IF NOT EXISTS flashcards (''Codigo INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,''Frente_card VARCHAR(100),''Verso_card TEXT(500)'')')
 
-	def inserir_deck(self, nome_deck):
-		self.cursor.execute('INSERT INTO Deck (nome, idUsuario) VALUES (?,?)', (nome_deck, 1))
+	def inserir_deck(self, nome_deck, usuario):
+		self.cursor.execute('INSERT INTO Deck (nome, idUsuario) VALUES (?,?)', (nome_deck, usuario))
 		self.conexao.commit()
 
 	def deletar_deck(self, nome_deck):
 		self.cursor.execute('SELECT codigo FROM Deck WHERE nome = (?)', (nome_deck,))
 		codigo = self.cursor.fetchall()
 		codigo = int(codigo[0][0])
-		self.cursor.execute('DELETE FROM Card where codigoDeck = (?)', (codigo,))
+		self.cursor.execute('DELETE FROM Card WHERE codigoDeck = (?)', (codigo,))
 		self.cursor.execute('DELETE FROM Deck WHERE nome = (?)', (nome_deck,))
 		self.conexao.commit()
 
@@ -52,8 +54,8 @@ class Banco_dados:
 		codigo = codigo[0]
 		return codigo
 
-	def listar_decks(self):
-		self.cursor.execute('SELECT * FROM Deck')
+	def listar_decks(self, usuario):
+		self.cursor.execute('SELECT * FROM Deck WHERE idUsuario = (?)', (usuario,))
 		deck = list()
 		for linha in self.cursor.fetchall():
 			codigo, nome, id_user = linha
@@ -90,7 +92,7 @@ class Banco_dados:
 		self.cursor.commit()
 		
 	def puxar_login(self):
-		self.cursor.execute('SELECT userName, senha, email FROM Usuario')
+		self.cursor.execute('SELECT userName, senha, email, id FROM Usuario')
 		dicio = {}
 		for linha in self.cursor.fetchall():
 			UserName, *restante = linha

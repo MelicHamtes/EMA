@@ -1,6 +1,7 @@
 import os
 import platform
 import tkinter
+import sys
 from tkinter import messagebox
 from Banco_armazenamento.Banco_dados import Banco_dados
 from Deck import Deck
@@ -9,36 +10,37 @@ from InserirDeletarCards import Editar_cartoes
 from Estudar import Estudar 
 
 class Configuracoes_deck:
-	def __init__(self):
-		self.janela_deck = tkinter.Tk()
-		self.janela_deck.title('Decks')
+	def __init__(self, usuario):
+		self.usuario = usuario
+		self.janela_configuracoes = tkinter.Tk()
+		self.janela_configuracoes.title('Decks')
 		self.control = Deck()
-		self.janela_deck.geometry('200x100+350+200')
-		self.janela_deck.resizable(0,0)
-		self.janela_deck.protocol('WM_DELETE_WINDOW', lambda: self.janela_deck.destroy()) 
+		self.janela_configuracoes.geometry('200x100+350+200')
+		self.janela_configuracoes.resizable(0,0)
+		self.janela_configuracoes.protocol('WM_DELETE_WINDOW', lambda: sys.exit()) 
 
 		if platform.system() == 'Linux':
 			self.dir_path = os.path.dirname(os.path.realpath(__file__)) + '/Banco_armazenamento/db/Ema'
 			bd = Banco_dados()
 			bd.conectar()
-			self.lista_decks = bd.listar_decks()
+			self.lista_decks = bd.listar_decks(self.usuario)
 			#self.lista_decks = os.listdir(self.dir_path)
 		elif platform.system() == 'Windows':
 			self.dir_path = os.path.dirname(os.path.realpath(__file__)) + '\\Banco_armazenamento\\db\\Ema'
 			bd = Banco_dados()
 			bd.conectar()
-			self.lista_decks = bd.listar_decks()
+			self.lista_decks = bd.listar_decks(self.usuario)
 		    #self.lista_decks = os.listdir(self.dir_path)
 
 		#print(self.lista_decks, type(self.lista_decks)) #Teste
-		self.frame = tkinter.Frame(self.janela_deck)
+		self.frame = tkinter.Frame(self.janela_configuracoes)
 		self.frame.pack()
 		self.mb =  tkinter.Menubutton ( self.frame, text = "Deck", relief = tkinter.RAISED )
 		self.mb.pack(side=tkinter.LEFT)
 		self.mb.menu  =  tkinter.Menu ( self.mb, tearoff = 0 )
 		self.mb["menu"]  =  self.mb.menu
 
-		self.mb.menu.add_command(label='Criar Deck', command=self.janela_adicionar_decks)
+		self.mb.menu.add_command(label='Criar', command=self.janela_adicionar_decks)
 		#self.bt1.place(x=20,y=10)
 
 		self.bt2 = tkinter.Button(self.frame, text='Abrir Deck', command=self.janela_abrir_decks)
@@ -47,26 +49,30 @@ class Configuracoes_deck:
 		self.mb.menu.add_command(label='Editar cards', command=self.janela_editar_decks)
 		#self.bt3.place(x=97,y=10)
 
-		self.mb.menu.add_command(label='Deletar deck', command=self.janela_deletar_decks)
+		self.mb.menu.add_command(label='Deletar', command=self.janela_deletar_decks)
+		self.mb.menu.add_command(label='Renomear')
 		#self.bt4.place(x=95,y=55)
 
-		#self.bt5 = tkinter.Button(self.janela_deck, text='<--', command=self.retornar, bd=0)
+		#self.bt5 = tkinter.Button(self.janela_configuracoes, text='<--', command=self.retornar, bd=0)
 		#self.bt5.place(x=0,y=0)
 		self.mb.pack()
-		self.janela_deck.mainloop()
+
+		self.botao_return = tkinter.Button(text='<--', command= lambda: self.fechar_janela(self.janela_configuracoes))
+		self.botao_return.pack(side=tkinter.LEFT)
+		self.janela_configuracoes.mainloop()
 
 	#def retornar(self):
-	#	self.janela_deck.destroy()
+	#	self.janela_configuracoes.destroy()
 	
 	# Fecha janela principal (esta classe) e em seguia a abre novamente para atualização dos banco de dados 	
 	def atualizar(self):
-		self.janela_deck.destroy()
+		self.janela_configuracoes.destroy()
 		deck = Configuracoes_deck() 
 
 	# Janela de toplevel com entrada para adicionar um deck (banco de dados)
 	def janela_adicionar_decks(self):
 		self.bloquear_botoes()
-		self.toplevel_1 = tkinter.Toplevel(self.janela_deck)
+		self.toplevel_1 = tkinter.Toplevel(self.janela_configuracoes)
 		self.toplevel_1.protocol('WM_DELETE_WINDOW', lambda: self.fechar_toplevel(self.toplevel_1)) 
 		self.toplevel_1.minsize(300,50)
 		self.toplevel_1.maxsize(300,50)
@@ -83,7 +89,7 @@ class Configuracoes_deck:
 	def janela_abrir_decks(self):
 		"""
 		self.bloquear_botoes()
-		self.toplevel_2 = tkinter.Toplevel(self.janela_deck)
+		self.toplevel_2 = tkinter.Toplevel(self.janela_configuracoes)
 		self.toplevel_2.protocol('WM_DELETE_WINDOW', self.fechar_toplevel_2) 
 		self.toplevel_2.minsize(170,210)
 		self.toplevel_2.maxsize(170,210)
@@ -98,14 +104,14 @@ class Configuracoes_deck:
 		bt.pack(side=tkinter.BOTTOM)
 		"""
 		self.bt2['state'] = tkinter.DISABLED
-		self.janela_deck.destroy()
-		deck_estudo = Estudar()
-		jd = Configuracoes_deck()
+		self.janela_configuracoes.destroy()
+		deck_estudo = Estudar(self.usuario)
+		config_deck = Configuracoes_deck(self.usuario)
 	
 	# Janela de toplevel para selecionar deck (banco de dados) e abrir janela na qual os cards serão modificados
 	def janela_editar_decks(self):
 		self.bloquear_botoes()
-		self.toplevel_3 = tkinter.Toplevel(self.janela_deck)
+		self.toplevel_3 = tkinter.Toplevel(self.janela_configuracoes)
 		self.toplevel_3.protocol('WM_DELETE_WINDOW', lambda: self.fechar_toplevel(self.toplevel_3)) 
 		self.toplevel_3.minsize(170,210)
 		self.toplevel_3.maxsize(170,210)
@@ -121,7 +127,7 @@ class Configuracoes_deck:
 
 	def janela_deletar_decks(self):
 		self.bloquear_botoes()
-		self.toplevel_4 = tkinter.Toplevel(self.janela_deck)
+		self.toplevel_4 = tkinter.Toplevel(self.janela_configuracoes)
 		self.toplevel_4.protocol('WM_DELETE_WINDOW', lambda: self.fechar_toplevel(self.toplevel_4)) 
 		self.toplevel_4.minsize(170,210)
 		self.toplevel_4.maxsize(170,210)
@@ -176,9 +182,9 @@ class Configuracoes_deck:
 			item_selecionado_listbox = self.listbox_2.curselection()
 			item_selecionado_listbox = self.listbox_2.get(item_selecionado_listbox[0])
 			self.fechar_toplevel(self.toplevel_3)
-			self.janela_deck.destroy()
+			self.janela_configuracoes.destroy()
 			idc = Editar_cartoes(item_selecionado_listbox)
-			jd = Configuracoes_deck()
+			config_deck = Configuracoes_deck(self.usuario)
 		except(IndexError):
 			messagebox.showerror('Erro', 'Nenhum deck foi selecionado')
 

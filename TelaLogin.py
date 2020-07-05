@@ -5,7 +5,7 @@ from Banco_armazenamento.Banco_dados import Banco_dados
 from Usuario import Usuario
 from Menu import Menu
 
-class Application:
+class TelaLogin:
     def __init__(self):
         self.master = Tk()
         self.master.geometry('+500+200')
@@ -76,8 +76,6 @@ class Application:
     def verificaSenha(self):
         usuario = self.nomeLogin.get()
         senha = self.senhaLogin.get()
-        print(usuario)
-        print(senha)
         self.bd = Banco_dados()
         self.bd.conectar()
         login = self.bd.puxar_login()
@@ -86,10 +84,12 @@ class Application:
         for index, index2 in login.items():
             if usuario != '' and senha != '':
                 if index == usuario and index2[0] == senha:
-                    self.Menu()
+                    usuario = index2[2]
+                    self.Menu(usuario)
                     print('Logado')
                 elif index2[1] == usuario and index2[0] == senha:
-                     self.Menu()    
+                    usuario = index2[2]
+                    self.Menu(usuario)   
                 else:       
                     messagebox.showerror('Login:','Login e/ou senha incorretos')
             elif usuario == '' and senha == '':
@@ -99,9 +99,9 @@ class Application:
             elif senha == '':
                 messagebox.showerror('Erro:',' A senha está vazio')    
 
-    def Menu(self):
+    def Menu(self, usuario):
         self.master.destroy()
-        menu = Menu()
+        menu = Menu(usuario)
 
     def cadastrar_toplevel(self):
         self.autenticarLogin['state'] = DISABLED
@@ -236,6 +236,7 @@ class Application:
 
     def sair(self):
         self.master.destroy()
-        app = Application()
+        app = TelaLogin()
 
-App = Application()
+if __name__ == '__main__':
+    App = TelaLogin()

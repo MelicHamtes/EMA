@@ -12,7 +12,7 @@ class Editar_cartoes:
 		self.janela.resizable(0,0)
 
 		# Chama da classe controladora de dados 
-		self.control = Controlador()
+		self.control = Deck()
 		self.control.deck = nome_deck
 
 		# Chamada de banco de dados 

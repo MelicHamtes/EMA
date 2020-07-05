@@ -10,7 +10,8 @@ Classe será chamada sempre que se quiser abrir os cards para estudo; classe no 
 e ABRIR em CONF. CARDS
 """
 class Estudar:
-	def __init__(self):
+	def __init__(self, usuario):
+		self.usuario = usuario
 		self.janela_estudo = tkinter.Tk()
 		self.janela_estudo.geometry('300x200')
 		self.janela_estudo.resizable(0,0)
@@ -24,12 +25,12 @@ class Estudar:
 			self.dir_path = os.path.dirname(os.path.realpath(__file__)) + '/Banco_armazenamento/db/Ema'
 			bd = Banco_dados()
 			bd.conectar()
-			self.lista_decks = bd.listar_decks()
+			self.lista_decks = bd.listar_decks(self.usuario)
 		elif platform.system() == 'Windows':
 			self.dir_path = os.path.dirname(os.path.realpath(__file__)) + '\\Banco_armazenamento\\db\\Ema'
 			bd = Banco_dados()
 			bd.conectar()
-			self.lista_decks = bd.listar_decks()
+			self.lista_decks = bd.listar_decks(self.usuario)
 
 		var = int()
 		self.lb1 = tkinter.Label(self.janela_estudo, text='Selecione o modo:', font='Arial, 10')

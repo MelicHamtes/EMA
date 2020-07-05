@@ -5,7 +5,8 @@ from Informacoes import Informacoes
 import sys
 
 class Menu:
-	def __init__(self):
+	def __init__(self, usuario):
+		self.usuario = usuario
 		self.janela = tkinter.Tk()
 		self.janela.geometry('600x400+400+150')
 		self.janela.title('Menu EMA')
@@ -31,16 +32,19 @@ class Menu:
 		self.janela.mainloop()
 		 	
 	def estudar(self):
-		deck = Estudar()
-		menu = Menu()
+		self.janela.destroy()
+		deck = Estudar(self.usuario)
+		menu = Menu(self.usuario)
 
 	def config_cards(self):
-		deck = Configuracoes_deck()
-		menu = Menu()
+		self.janela.destroy()
+		deck = Configuracoes_deck(self.usuario)
+		menu = Menu(self.usuario)
 
 	def info(self):
+		self.janela.destroy()
 		info = Informacoes()
-		menu = Menu()
+		menu = Menu(self.usuario)
 
 if __name__ == '__main__':
 	app =Menu()
