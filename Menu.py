@@ -1,12 +1,13 @@
 import tkinter 
-from Deck import Configuracoes_deck, Estudar
+from Configuracoes_deck import Configuracoes_deck
+from Estudar import Estudar
 from Informacoes import Informacoes
 import sys
 
 class Menu:
 	def __init__(self):
 		self.janela = tkinter.Tk()
-		self.janela.geometry('600x400+500+300')
+		self.janela.geometry('600x400+400+150')
 		self.janela.title('Menu EMA')
 		self.janela.resizable(0,0)
 		self.janela.protocol('WM_DELETE_WINDOW', lambda: sys.exit())
@@ -41,3 +42,5 @@ class Menu:
 		info = Informacoes()
 		menu = Menu()
 
+if __name__ == '__main__':
+	app =Menu()

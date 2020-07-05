@@ -8,6 +8,7 @@ from Menu import Menu
 class Application:
     def __init__(self):
         self.master = Tk()
+        self.master.geometry('+500+200')
         self.master.resizable(0,0)
         self.master.title('Login')
         self.fontePadrao = ("Arial", "10")

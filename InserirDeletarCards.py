@@ -1,14 +1,14 @@
 import tkinter
 from tkinter import messagebox
 from Banco_armazenamento.Banco_dados import Banco_dados
-from Controlador_acesso import Controlador
+from Deck import Deck
 import sys
 
 class Editar_cartoes:
 	def __init__(self, nome_deck):
 		self.janela = tkinter.Tk()
 		self.janela.title('Configurações de card')
-		self.janela.geometry('400x200')
+		self.janela.geometry('400x200+100+100')
 		self.janela.resizable(0,0)
 
 		# Chama da classe controladora de dados 
@@ -184,14 +184,17 @@ class Editar_cartoes:
 		self.ent3.delete(0,tkinter.END)
  	
 	def mostrar_deck(self):
+		self.janela.geometry('400x200+500+500')
 		self.toplevel = tkinter.Toplevel(self.janela)
 		self.toplevel.protocol('WM_DELETE_WINDOW', self.fechar_toplevel) # Reescreve o método de fechar janela (x)
 		self.toplevel.minsize(400,300)
 		self.toplevel.maxsize(400,300)
 		self.bt6['state'] = tkinter.DISABLED	
-		listbox = tkinter.Listbox(self.toplevel, font='-size 10', width=40, height=30, bd=0)
-		listbox.pack()
 
+		self.listbox = tkinter.Listbox(self.toplevel, font='-size 10', width=40, height=30, bd=0)
+		self.listbox.bind('<Button-1>', self.card_selecionado)
+		self.listbox.pack()
+		
 		try:
 			deck = self.bd.puxar_deck(self.codigo_deck)
 			deck_keys = list(deck.keys())
@@ -200,20 +203,39 @@ class Editar_cartoes:
 			i = 0
 			i_2 = 1
 			for chave, valor in deck.items():
-				i_2 = 1
 				cod = self.bd.puxar_codigo_card(deck_keys[i])
-				a = str(i_2) + '- ' + str(deck_keys[i])+':'+ str(deck[chave])	
-				listbox.insert(i_2, a)
+				a = str(i) + ' ' + str(deck_keys[i])+':'+ str(deck[chave])	
+				self.listbox.insert(i, a)
 				i_2 += 1
 				i += 1
 		except:
-			listbox.insert(1,'ERRO: Não é possível exibir')
+			self.listbox.insert(1,'ERRO: Não é possível exibir')
 
 	def fechar_toplevel(self):
 		self.toplevel.destroy()
+		self.janela.geometry('400x200+100+100')
 		del self.toplevel
 		self.bt6['state'] = tkinter.NORMAL
 
 
+	def card_selecionado(self, *args):
+		self.janela.geometry('400x200+100+100')
+		self.limpar_entries()
+		card_codigo = self.listbox.curselection()
+		card = self.listbox.get(card_codigo[0])
+		card = card.replace(card[0],'')
+		card = card.replace(card[0],'')
+		for i in range(len(card)):
+			if card[i] == ':':
+				i_2 = i + 1
+				frente = card[:i]
+				verso = card[i_2:]
+				print(frente, verso)
+				self.ent1.insert(1.0, frente)
+				self.ent2.insert(1.0, verso)
+		print(card_codigo)
+
+
+		
 if __name__ == '__main__':
 	idc = IDC('teste')
