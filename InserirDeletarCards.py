@@ -20,6 +20,9 @@ class Editar_cartoes:
 		self.bd.conectar()
 		self.codigo_deck = self.bd.puxar_codigo_deck(nome_deck)
 
+
+		self.deck = self.bd.puxar_deck(self.codigo_deck)
+
 		# Frame de organição dos botoes
 		self.btf = tkinter.Frame(self.janela)
 		self.btf.pack(side=tkinter.LEFT)
@@ -62,8 +65,9 @@ class Editar_cartoes:
 		self.bt4.place(x=373,y=142)
 
 		# Botão que pesquisa cards
-		self.bt5 = tkinter.Button(self.janela, text='Pesquisar', command=self.puxar, width=7)
-		self.bt5.place(x=290, y=20)
+
+		#self.bt5 = tkinter.Button(self.janela, text='Pesquisar', command=self.puxar, width=7)
+		#elf.bt5.place(x=290, y=20)
 
 		# Botão que mostra cards existentes em determinado deck
 		self.bt6 = tkinter.Button(self.janela, text='Mostrar cards', command=self.mostrar_deck, bd=0)
@@ -196,15 +200,12 @@ class Editar_cartoes:
 		self.listbox.pack()
 		
 		try:
-			deck = self.bd.puxar_deck(self.codigo_deck)
-			deck_keys = list(deck.keys())
-			print(deck)
-
+			deck_keys = list(self.deck.keys())
 			i = 0
 			i_2 = 1
-			for chave, valor in deck.items():
+			for chave, valor in self.deck.items():
 				cod = self.bd.puxar_codigo_card(deck_keys[i])
-				a = str(i) + ' ' + str(deck_keys[i])+':'+ str(deck[chave])	
+				a = str(i) + ' ' + str(deck_keys[i])+':'+ str(self.deck[chave])	
 				self.listbox.insert(i, a)
 				i_2 += 1
 				i += 1
@@ -234,6 +235,8 @@ class Editar_cartoes:
 				self.ent1.insert(1.0, frente)
 				self.ent2.insert(1.0, verso)
 		print(card_codigo)
+		self.fechar_toplevel()
+		
 
 
 		

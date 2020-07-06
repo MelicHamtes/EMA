@@ -224,15 +224,44 @@ class TelaLogin:
         self.usuario_control.nome = nome
         self.usuario_control.senha = senha
         self.usuario_control.email = email
-        self.usuario_control.username = username
+        self.usuario_control.username = username  
+
+        erro_1 = True
+        erro_2 = True
+        erro_3 = True
+        erro_4 = True      
 
         try:
-            if self.usuario_control.nome == 'Erro: nome não pode conter números' or 'Erro: vazio':
-                raise Exception(self.usuario_control.nome)
-            if self.usuario_control.senha == 'Erro: número de caracteres insuficientes' or 'Erro: vazio':
-                raise Exception()
+            if self.usuario_control.nome == 'nome não pode conter números' or self.usuario_control.nome == 'nome está vazio':
+                erro_1 = False
+            if self.usuario_control.senha == 'número de caracteres da senha insuficiente' or self.usuario_control.senha == 'senha está vazia':
+                erro_2 = False
+            if self.usuario_control.email == 'email está vazio' or self.usuario_control.email == 'email não contem endereço correto':
+                erro_3 = False
+            if self.usuario_control.username == 'número de caracteres de usuário insuficiente' or self.usuario_control.username == 'username está vazio':
+                erro_4 = False
+
+            if erro_1 == False and erro_2 == False and erro_3 == False and erro_4 == False:
+                raise Exception(self.usuario_control.nome + '\n' + self.usuario_control.senha + '\n' + self.usuario_control.email + '\n' + self.usuario_control.username)
+            elif erro_1 == False or erro_2 == False or erro_3 == False or erro_4 == False:
+                erro_raise = ''
+                if erro_1 == False:
+                    erro_raise = self.usuario_control.nome + '\n'
+                if erro_2 == False:
+                    erro_raise = erro_raise + self.usuario_control.senha + '\n'
+                if erro_3 == False:
+                    erro_raise = erro_raise + self.usuario_control.email + '\n'
+                if erro_4 == False:
+                    erro_raise = erro_raise + self.usuario_control.username + '\n'
+                raise Exception(erro_raise)
+            else:
+                bd = Banco_dados()
+                bd.conectar()
+                bd.criar_login(self.usuario_control.nome,self.usuario_control.username,self.usuario_control.senha, self.usuario_control.email)
+                self.sair()
+
         except Exception as error:
-            messagebox.showerror('Erro', error)
+            messagebox.showerror('Erros', error)
 
     def sair(self):
         self.master.destroy()

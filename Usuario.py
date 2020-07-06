@@ -9,11 +9,11 @@ class Usuario:
 	def nome(self, nome):
 		if nome != '':
 			if nome.isdigit():
-					self.__nome = 'Erro: nome não pode conter números'
+					self.__nome = 'nome não pode conter números'
 			else:
 				self.__nome = nome
 		else:
-			self.__nome = 'Erro: nome está vazio'
+			self.__nome = 'nome está vazio'
 	@property
 	def senha(self):
 		return self.__senha
@@ -21,11 +21,11 @@ class Usuario:
 	def senha(self, senha):
 		if senha != '':
 			if len(senha) < 6:
-				self.__senha = 'Erro: número de caracteres insuficientes'
+				self.__senha = 'número de caracteres da senha insuficiente'
 			else:
 				self.__senha = senha
 		else:
-			self.__senha = 'Erro: senha está vazia'
+			self.__senha = 'senha está vazia'
 
 	@property
 	def email(self):
@@ -33,9 +33,15 @@ class Usuario:
 	@email.setter
 	def email(self, email):
 		if email != '':
+			#for i in range(len(email)):
+				#if email[i:] == '@gmail.com':
 			self.__email = email
+				#elif email[i:] == '@outlook.com':
+					#self.__email = email
+				#else:
+					#self.__email = 'email não contem endereço correto'
 		else:
-			self.__email = 'Erro: vazio'
+			self.__email = 'email está vazio'
 
 	@property
 	def username(self):
@@ -44,10 +50,10 @@ class Usuario:
 	def username(self, username):
 		if username != '':
 			if len(username) < 4:
-				self.__username = 'Erro: número de caracteres insuficientes'
+				self.__username = 'número de caracteres de usuário insuficiente'
 			else:
 				self.__username = username
 		else:
-			self.__username = 'Erro: vazio'
+			self.__username = 'username está vazio'
 
 	

@@ -88,8 +88,8 @@ class Banco_dados:
 		return codigo
 
 	def criar_login(self, nome, username, senha, email):
-		self.cursor.execute('INSERT INTO Usuario VALUES (?,?,?,?)', (nome, senha, email, username,))
-		self.cursor.commit()
+		self.cursor.execute('INSERT INTO Usuario VALUES (?,?,?,?,?)', (0, nome, senha, email, username,))
+		self.conexao.commit()
 		
 	def puxar_login(self):
 		self.cursor.execute('SELECT userName, senha, email, id FROM Usuario')

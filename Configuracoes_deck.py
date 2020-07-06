@@ -154,7 +154,7 @@ class Configuracoes_deck:
 			if self.control.deck == None:
 				raise Exception('Vazio') 
 			bd.conectar()
-			bd.inserir_deck(self.control.deck)
+			bd.inserir_deck(self.control.deck, self.usuario)
 			self.atualizar()
 			bd.fechar_banco()
 		except (Exception):

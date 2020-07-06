@@ -110,11 +110,11 @@ class Estudar:
 		if self.modo == 'padrão':
 			self.janela_estudo.destroy()
 			fc = Flash_Card(self.item_selecionado_listbox,self.modo)
-			deck_estudo = Estudar()
+			deck_estudo = Estudar(self.usuario)
 		elif self.modo == 'numero de cards':
 			self.janela_estudo.destroy()
 			fc = Flash_Card(self.item_selecionado_listbox, self.modo, self.numero_cards)
-			deck_estudo = Estudar()
+			deck_estudo = Estudar(self.usuario)
 
 	def fechar_toplevel(self, toplevel):
 		toplevel.destroy()
