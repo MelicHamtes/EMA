@@ -52,13 +52,13 @@ class Estudar:
 		self.frOpcao=tkinter.Frame(fram,width=170,height=210)
 
 		frDeck=tkinter.LabelFrame(self.frOpcao,text="Deck Selecionado")
-		lbD=tkinter.Label(frDeck,text="Nome:\nCards:")
-		lbD.pack(side=tkinter.LEFT)
-		lbd1=tkinter.Label(frDeck,text="ppg\n30",font=("Arial","8","bold"))
-		lbd1.pack()
+		self.lbD=tkinter.Label(frDeck,text="Nome:\nCards:")
+		self.lbD.pack(side=tkinter.LEFT)
+		self.lbD1=tkinter.Label(frDeck,text="ppg\n30",font=("Arial","8","bold"))
+		self.lbD1.pack()
 		frDeck.pack(anchor=tkinter.NW)
 
-		var=int()
+		var= True
 		labSelect=tkinter.LabelFrame(self.frOpcao,text="Selecione o modo")
 		labSelect.pack()
 		rb1 = tkinter.Radiobutton(labSelect, text='Padrão', variable=var , value=1,command=self.selecionar_modo_1 )
@@ -128,6 +128,8 @@ class Estudar:
 
 			item_selecionado_listbox = self.listbox.curselection()
 			self.item_selecionado_listbox = self.listbox.get(item_selecionado_listbox[0])
+			self.lbD1['text'] = ""
+			self.lbD1['text'] = self.item_selecionado_listbox
 
 			#self.lb3['text'] = 'Deck selecionado: ' + self.item_selecionado_listbox
 			#self.lb3.place(y=120)

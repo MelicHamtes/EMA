@@ -46,7 +46,7 @@ class Flash_Card():
 		frameB=tkinter.Frame(self.janela)
 		self.bt1=tkinter.Button(frameB,text="Iniciar",width=20,height=5, command=self.iniciar)
 		self.bt1.pack(side=tkinter.LEFT,anchor=tkinter.SW)
-		self.bt2=tkinter.Button(frameB,text="Mostra",width=20,height=5, command=self.exibir)
+		self.bt2=tkinter.Button(frameB,text="Mostrar",width=20,height=5, command=self.exibir)
 		self.bt2.pack(side=tkinter.RIGHT,anchor=tkinter.SE)
 		frameB.pack(side=tkinter.BOTTOM)
 
