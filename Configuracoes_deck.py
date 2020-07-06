@@ -67,7 +67,7 @@ class Configuracoes_deck:
 	# Fecha janela principal (esta classe) e em seguia a abre novamente para atualização dos banco de dados 	
 	def atualizar(self):
 		self.janela_configuracoes.destroy()
-		deck = Configuracoes_deck() 
+		deck = Configuracoes_deck(self.usuario) 
 
 	# Janela de toplevel com entrada para adicionar um deck (banco de dados)
 	def janela_adicionar_decks(self):

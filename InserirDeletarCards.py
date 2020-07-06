@@ -8,7 +8,7 @@ class Editar_cartoes:
 	def __init__(self, nome_deck):
 		self.janela = tkinter.Tk()
 		self.janela.title('Configurações de card')
-		self.janela.geometry('400x200+100+100')
+		self.janela.geometry("460x190+350+150")
 		self.janela.resizable(0,0)
 
 		# Chama da classe controladora de dados 
@@ -23,59 +23,48 @@ class Editar_cartoes:
 
 		self.deck = self.bd.puxar_deck(self.codigo_deck)
 
-		# Frame de organição dos botoes
-		self.btf = tkinter.Frame(self.janela)
-		self.btf.pack(side=tkinter.LEFT)
+		fram=tkinter.Frame(self.janela)
+		fr=tkinter.Frame(fram)
+		frameF=tkinter.LabelFrame(fr)
+		lb1 = tkinter.Label(frameF, text='Frente:')
+		lb1.pack(side=tkinter.LEFT)
+		ent1 = tkinter.Text(frameF, width = 30, height=4)
+		ent1.pack()
+		frameF.pack()
+
+		frameV= tkinter.LabelFrame(fr)
+		lb2 =tkinter.Label(frameV, text='Verso: ')
+		lb2.pack(side=tkinter.LEFT)
+		ent2 =tkinter.Text(frameV, width=30, height = 4)
+		ent2.pack()
+		frameV.pack()
+
+		framebt=tkinter.LabelFrame(fr)
+		btM=tkinter.Button(framebt,text="Mostar Cards",width=10,height=1)
+		btM.pack(side=tkinter.LEFT)
+		btL=tkinter.Button(framebt,text="Limpar",width=10,height=1)
+		btL.pack(side=tkinter.RIGHT)
+		framebt.pack(expand=1,fill=tkinter.BOTH)
+		fr.pack(side=tkinter.LEFT)
+
+
+		frameBot=tkinter.LabelFrame(fram,text="Cardº")
+		lbS=tkinter.Label(frameBot,text="aqui ficara o card selecionado",font=("Arial","7","bold"))
+		lbS.pack(side=tkinter.TOP,anchor=tkinter.NW,expand=1,fill=tkinter.BOTH)
+
+
+		btADIC=tkinter.Button(frameBot,text="Adicionar")
+		btADIC.pack(side=tkinter.BOTTOM,expand=1,fill=tkinter.BOTH)
+
+		btDelet=tkinter.Button(frameBot,text="Deletar")
+		btDelet.pack(side=tkinter.BOTTOM,expand=1,fill=tkinter.BOTH)
+
+		btALt=tkinter.Button(frameBot,text="Alterar",)
+		btALt.pack(side=tkinter.BOTTOM,expand=1,fill=tkinter.BOTH)
+
+		frameBot.pack(side=tkinter.RIGHT,anchor=tkinter.N)
+		fram.pack(anchor=tkinter.CENTER)
 		
-		# label do frente
-		self.lb1 = tkinter.Label(self.janela, text='Frente:')
-		self.lb1.place(x=18,y=58)
-
-		# label do verso
-		self.lb2 = tkinter.Label(self.janela, text='Verso:')
-		self.lb2.place(x=20,y=123)
-
-		self.lb3 =tkinter. Label(self.janela, text='Código:')
-		self.lb3.place(x=70,y=12)
-
-		# Entrada do frente
-		self.ent1 = tkinter.Text(self.janela, width = 22, height=3)
-		self.ent1.place(x=70,y=38)
-		
-		# Entrada de verso
-		self.ent2 = tkinter.Text(self.janela, width=22, height = 3)
-		self.ent2.place(x=70, y=108)
-
-		self.ent3 = tkinter.Entry(self.janela, width=5)
-		self.ent3.place(x=130,y=10)
-		
-		# Botão de adicionar card
-		self.bt1 = tkinter.Button(self.janela, text='Adicionar', command=self.adicionar, width=7)
-		self.bt1.place(x=290,y=60)
-		
-		self.bt2 = tkinter.Button(self.janela, text='Alterar', command=self.alterar, width=7)
-		self.bt2.place(x=290,y=100)
-
-		# Botão de remover card
-		self.bt3 = tkinter.Button(self.janela, text='Remover', command=self.remover, width=7)
-		self.bt3.place(x=290,y=140)
-
-		# Botão de aviso sobre como remover cards
-		self.bt4 = tkinter.Button(self.janela, text='*', width=1, bd=0,	 command=self.adendo)
-		self.bt4.place(x=373,y=142)
-
-		# Botão que pesquisa cards
-
-		#self.bt5 = tkinter.Button(self.janela, text='Pesquisar', command=self.puxar, width=7)
-		#elf.bt5.place(x=290, y=20)
-
-		# Botão que mostra cards existentes em determinado deck
-		self.bt6 = tkinter.Button(self.janela, text='Mostrar cards', command=self.mostrar_deck, bd=0)
-		self.bt6.place(x=20, y=170)
-
-		self.bt7 = tkinter.Button(self.janela, text='limpar', command=self.limpar_entries, bd=0)
-		self.bt7.pack(side=tkinter.BOTTOM)
-
 		self.janela.mainloop()
 
 	# método que puxa valores, dada a frente do card

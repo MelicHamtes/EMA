@@ -79,25 +79,33 @@ class TelaLogin:
         self.bd = Banco_dados()
         self.bd.conectar()
         login = self.bd.puxar_login()
-        self.bd.fechar_banco()
 
-        for index, index2 in login.items():
-            if usuario != '' and senha != '':
-                if index == usuario and index2[0] == senha:
-                    usuario = index2[2]
-                    self.Menu(usuario)
-                    print('Logado')
-                elif index2[1] == usuario and index2[0] == senha:
-                    usuario = index2[2]
-                    self.Menu(usuario)   
-                else:       
-                    messagebox.showerror('Login:','Login e/ou senha incorretos')
-            elif usuario == '' and senha == '':
-                messagebox.showerror('Erro:','O login e senha estão vazios')         
-            elif usuario == '':
-                messagebox.showerror('Erro:','O login está vazio')
-            elif senha == '':
-                messagebox.showerror('Erro:',' A senha está vazio')    
+        if usuario != '' and senha != '':
+            user = self.bd.puxar_login(username=usuario)
+            email = self.bd.puxar_login(email=usuario)
+            if user:
+                if user[0][1] == senha:
+                    id_user = user[0][2]
+                    self.Menu(id_user)    
+                else:
+                    messagebox.showerror('Login','usuário e/ou senha inválidos')
+
+            elif email:
+                if email[0][1] == senha:
+                    id_user = email[0][2]
+                    self.Menu(id_user)
+            else:
+                messagebox.showerror('Login','usuário e/ou senha inválidos')
+                
+        elif usuario == '' and senha == '':
+            messagebox.showerror('Login','Usuário e senha estão vazios')
+        elif usuario == '':
+            messagebox.showerror('Login','usuário está vazio')
+        elif senha == '':
+            messagebox.showerror('Login','senha está vazia')
+
+
+        self.bd.fechar_banco()
 
     def Menu(self, usuario):
         self.master.destroy()

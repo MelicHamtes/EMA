@@ -47,4 +47,4 @@ class Menu:
 		menu = Menu(self.usuario)
 
 if __name__ == '__main__':
-	app =Menu()
+	app =Menu('l')
