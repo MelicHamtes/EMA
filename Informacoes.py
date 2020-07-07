@@ -9,7 +9,7 @@ class Informacoes:
 		self.janela_info.geometry('600x120+200+100')
 		self.janela_info.title('SRS')
 		self.janela_info.resizable(0,0)
-		self.janela_info.protocol('WM_DELETE_WINDOW', lambda: sys.exit())
+		self.janela_info.protocol('WM_DELETE_WINDOW', lambda: self.janela_info.destroy())
 
 		font_title = Font(family='Arial', size=12, weight='bold')
 		font_text = Font(family='Arial', size=10)

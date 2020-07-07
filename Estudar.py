@@ -13,7 +13,7 @@ class Estudar:
 	def __init__(self, usuario):
 		self.usuario = usuario
 		self.janela_estudo = tkinter.Tk()
-		self.janela_estudo.geometry("400x230+350+150")
+		self.janela_estudo.geometry("400x210+350+150")
 		#self.janela_estudo.resizable(0,0)
 		self.janela_estudo.title('Estudar')
 		self.janela_estudo.protocol('WM_DELETE_WINDOW', lambda: self.fechar_janela(self.janela_estudo))
@@ -26,11 +26,13 @@ class Estudar:
 			bd = Banco_dados()
 			bd.conectar()
 			self.lista_decks = bd.listar_decks(self.usuario)
+			bd.fechar_banco()
 		elif platform.system() == 'Windows':
 			self.dir_path = os.path.dirname(os.path.realpath(__file__)) + '\\Banco_armazenamento\\db\\Ema'
 			bd = Banco_dados()
 			bd.conectar()
 			self.lista_decks = bd.listar_decks(self.usuario)
+			bd.fechar_banco()
 
 		var = int()
 
@@ -50,20 +52,19 @@ class Estudar:
 
 
 		self.frOpcao=tkinter.Frame(fram,width=170,height=210)
+		self.frDeck=tkinter.LabelFrame(self.frOpcao,text="Deck Selecionado")
+		#self.lbD=tkinter.Label(self.frDeck,text="", font=("Arial","8","bold"))
+		#self.lbD.pack()
+		self.lbd1=tkinter.Label(self.frDeck,text="",font=("Arial","8","bold"))
+		self.lbd1.pack()
+		self.frDeck.pack(anchor=tkinter.NW)
 
-		frDeck=tkinter.LabelFrame(self.frOpcao,text="Deck Selecionado")
-		self.lbD=tkinter.Label(frDeck,text="Nome:\nCards:")
-		self.lbD.pack(side=tkinter.LEFT)
-		self.lbD1=tkinter.Label(frDeck,text="ppg\n30",font=("Arial","8","bold"))
-		self.lbD1.pack()
-		frDeck.pack(anchor=tkinter.NW)
-
-		var= True
+		var=int()
 		labSelect=tkinter.LabelFrame(self.frOpcao,text="Selecione o modo")
 		labSelect.pack()
 		rb1 = tkinter.Radiobutton(labSelect, text='Padrão', variable=var , value=1,command=self.selecionar_modo_1 )
 		rb1.pack(anchor=tkinter.NW)
-		rb1.select()
+		#rb1.select()
 		rb2 = tkinter.Radiobutton(labSelect, text='Especificar número de cartões', variable=var, value=2,command=self.botao_selecionar_modo_2)
 		rb2.pack(anchor=tkinter.NW)
 
@@ -81,6 +82,9 @@ class Estudar:
 		self.btOPen=tkinter.Button(fram,text="Abrir",width=10,height=1, command=self.iniciar)
 		self.btOPen.pack()
 		self.btOPen.pack_forget()
+		self.frOpcao.pack()
+		self.btOPen.pack(side=tkinter.BOTTOM)
+
 	 
 	def selecionar_modo_1(self):
 		self.modo = 'padrão'
@@ -123,13 +127,16 @@ class Estudar:
 
 	def item_selecionado_deck(self):
 		try:
-			self.frOpcao.pack()
-			self.btOPen.pack(side=tkinter.BOTTOM)
-
+			
 			item_selecionado_listbox = self.listbox.curselection()
 			self.item_selecionado_listbox = self.listbox.get(item_selecionado_listbox[0])
-			self.lbD1['text'] = ""
-			self.lbD1['text'] = self.item_selecionado_listbox
+
+			bd = Banco_dados()
+			bd.conectar()
+			codigo = bd.puxar_codigo_deck(self.item_selecionado_listbox)
+			deck = bd.puxar_deck(codigo)
+			deck = len(deck.keys()) 
+			self.lbd1['text'] = 'Nome: ' + self.item_selecionado_listbox + '\n' + 'Cards: ' + str(deck)
 
 			#self.lb3['text'] = 'Deck selecionado: ' + self.item_selecionado_listbox
 			#self.lb3.place(y=120)
@@ -151,6 +158,8 @@ class Estudar:
 			self.janela_estudo.destroy()
 			fc = Flash_Card(self.item_selecionado_listbox, self.modo, self.numero_cards)
 			deck_estudo = Estudar(self.usuario)
+		else:
+			messagebox.showerror('Erro', 'Nenhum modo selecionado')
 
 	def fechar_toplevel(self, toplevel):
 		toplevel.destroy()

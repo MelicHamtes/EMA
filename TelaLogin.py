@@ -116,6 +116,7 @@ class TelaLogin:
         self.master.withdraw()
         self.toplevel = Toplevel(self.master)
         self.toplevel.protocol('WM_DELETE_WINDOW', lambda: self.sair())
+        self.toplevel.title('Registro')
         self.fontePadrao = ("Arial", "10")
         self.primeiroContainer = Frame(self.toplevel)
         self.primeiroContainer["pady"] = 10

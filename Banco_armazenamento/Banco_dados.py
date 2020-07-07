@@ -36,14 +36,11 @@ class Banco_dados:
 		self.cursor.execute('DELETE FROM Deck WHERE nome = (?)', (nome_deck,))
 		self.conexao.commit()
 
-	def renomear_deck(self, nome_deck):
-		self.cursor.execute('SELECT codigo FROM Deck WHERE nome = (?)', (nome_deck,))
-		codigo = self.cursor.fetchall()
-		codigo = int(codigo[0][0])
+	def renomear_deck(self, nome_deck, codigo):
 		self.cursor.execute('UPDATE Deck SET nome = (?) WHERE codigo = (?)', (nome_deck, codigo,))
-		self.cursor.commit()
+		self.conexao.commit()
 
-	def puxar_deck(self, codigo_deck):
+	def puxar_deck(self, cosdigo_deck):
 		self.cursor.execute('SELECT frenteCard, versoCard FROM Card WHERE codigoDeck = (?)', (codigo_deck,))
 		deck = {}
 		for linha_card in self.cursor.fetchall():
@@ -86,7 +83,7 @@ class Banco_dados:
 
 	def puxar_codigo_card(self, frente):
 		self.cursor.execute('SELECT idCard FROM Card WHERE frenteCard = (?)', (frente,))
-		codigo = self.cursor.fetchone()
+		codigo = self.cursor.fetchall()
 		codigo = codigo[0]
 		return codigo
 

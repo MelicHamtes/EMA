@@ -49,7 +49,9 @@ class Flash_Card():
 		self.bt2=tkinter.Button(frameB,text="Mostrar",width=20,height=5, command=self.exibir)
 		self.bt2.pack(side=tkinter.RIGHT,anchor=tkinter.SE)
 		frameB.pack(side=tkinter.BOTTOM)
-
+		self.bt3=tkinter.Button(frameB,text="Acabou: Sair",width=20,height=5, command=lambda: self.janela.destroy())
+		frameB.pack(side=tkinter.BOTTOM)
+		
 		
 		self.lb1= tkinter.Label(self.framefrente)
 		self.lb1.pack(side=tkinter.LEFT)
@@ -105,8 +107,12 @@ class Flash_Card():
 			#self.lb3['text'] = 'Acabou'
 			#self.lb3.place(x=80,y=130)
 			self.bt1['state'] = tkinter.DISABLED
+			self.bt1.pack_forget()
 			self.bt2['state'] = tkinter.DISABLED
+			self.bt2.pack_forget()
 			#self.bt3.place(x=0,y=0)
+			self.bt3.pack(side=tkinter.RIGHT,anchor=tkinter.S)
+
 
 	def exibir(self):
 		self.lb2['text'] = self.conjunto_padrão[self.n]

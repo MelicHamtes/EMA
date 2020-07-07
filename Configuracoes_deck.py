@@ -10,12 +10,12 @@ from InserirDeletarCards import Editar_cartoes
 from Estudar import Estudar 
 
 class Configuracoes_deck:
-	def __init__(self, usuario):
+	def __init__(self, usuario=None):
 		self.usuario = usuario
 		self.janela_configuracoes = tkinter.Tk()
 		self.janela_configuracoes.title('Decks')
 		self.control = Deck()
-		self.janela_configuracoes.geometry('200x100+350+200')
+		#self.janela_configuracoes.geometry('200x100+400+150')
 		self.janela_configuracoes.resizable(0,0)
 		self.janela_configuracoes.protocol('WM_DELETE_WINDOW', lambda: sys.exit()) 
 
@@ -24,17 +24,19 @@ class Configuracoes_deck:
 			bd = Banco_dados()
 			bd.conectar()
 			self.lista_decks = bd.listar_decks(self.usuario)
+			bd.fechar_banco()
 			#self.lista_decks = os.listdir(self.dir_path)
 		elif platform.system() == 'Windows':
 			self.dir_path = os.path.dirname(os.path.realpath(__file__)) + '\\Banco_armazenamento\\db\\Ema'
 			bd = Banco_dados()
 			bd.conectar()
 			self.lista_decks = bd.listar_decks(self.usuario)
+			bd.fechar_banco()
 		    #self.lista_decks = os.listdir(self.dir_path)
 
 		#print(self.lista_decks, type(self.lista_decks)) #Teste
 		self.frame = tkinter.Frame(self.janela_configuracoes)
-		self.frame.pack()
+		self.frame.pack(anchor=tkinter.CENTER)
 		self.mb =  tkinter.Menubutton ( self.frame, text = "Deck", relief = tkinter.RAISED )
 		self.mb.pack(side=tkinter.LEFT)
 		self.mb.menu  =  tkinter.Menu ( self.mb, tearoff = 0 )
@@ -50,15 +52,15 @@ class Configuracoes_deck:
 		#self.bt3.place(x=97,y=10)
 
 		self.mb.menu.add_command(label='Deletar', command=self.janela_deletar_decks)
-		self.mb.menu.add_command(label='Renomear')
+		self.mb.menu.add_command(label='Renomear', command=self.janela_renomear_deck)
 		#self.bt4.place(x=95,y=55)
 
 		#self.bt5 = tkinter.Button(self.janela_configuracoes, text='<--', command=self.retornar, bd=0)
 		#self.bt5.place(x=0,y=0)
 		self.mb.pack()
 
-		self.botao_return = tkinter.Button(text='<--', command= lambda: self.fechar_janela(self.janela_configuracoes))
-		self.botao_return.pack(side=tkinter.LEFT)
+		#self.botao_return = tkinter.Button(text='<--', command= lambda: self.fechar_janela(self.janela_configuracoes))
+		#self.botao_return.pack(side=tkinter.LEFT)
 		self.janela_configuracoes.mainloop()
 
 	#def retornar(self):
@@ -132,14 +134,33 @@ class Configuracoes_deck:
 		self.toplevel_4.minsize(170,210)
 		self.toplevel_4.maxsize(170,210)
 		self.toplevel_4.title('Decks')
-		self.listbox_3 = tkinter.Listbox(self.toplevel_4, font='-size 10', width=24, height=10, bd=0)
-		self.listbox_3.pack()
+		self.listbox_4 = tkinter.Listbox(self.toplevel_4, font='-size 10', width=24, height=10, bd=0)
+		self.listbox_4.pack()
 
 		for i in range(0, len(self.lista_decks)):
 			self.listbox_3.insert(i, self.lista_decks[i])
 
 		bt = tkinter.Button(self.toplevel_4, text='Selecionar', command=self.item_selecionado_excluir)
 		bt.pack(side=tkinter.BOTTOM)
+
+	def janela_renomear_deck(self):
+		self.bloquear_botoes()
+		self.toplevel_5 = tkinter.Toplevel(self.janela_configuracoes)
+		self.toplevel_5.protocol('WM_DELETE_WINDOW', lambda: self.fechar_toplevel(self.toplevel_555)) 
+		self.toplevel_5.minsize(170,210)
+		self.toplevel_5.maxsize(170,210)
+		self.toplevel_5.title('Decks')
+		self.listbox_4 = tkinter.Listbox(self.toplevel_5, font='-size 10', width=24, height=10, bd=0)
+		self.listbox_4.pack()
+
+		for i in range(0, len(self.lista_decks)):
+			self.listbox_4.insert(i, self.lista_decks[i])
+
+		bt = tkinter.Button(self.toplevel_5, text='Selecionar', command=self.item_selecionado_renomear)
+		bt.pack(side=tkinter.BOTTOM)
+		self.bloquear_botoes()
+
+		
 
 
 	# Faz ligação ao banco de dados e adiciona um deck (banco de dados)
@@ -200,6 +221,41 @@ class Configuracoes_deck:
 			self.atualizar()
 		except(IndexError):
 			messagebox.showerror('Erro','Nenhum deck foi selecionado')
+
+	def item_selecionado_renomear(self):
+		try:
+			item_selecionado_listbox = self.listbox_4.curselection()
+			item_selecionado_listbox = self.listbox_4.get(item_selecionado_listbox[0])
+			self.fechar_toplevel(self.toplevel_5)
+			self.toplevel_6 = tkinter.Toplevel(self.janela_configuracoes)
+			self.toplevel_6.protocol('WM_DELETE_WINDOW', lambda: self.fechar_toplevel(self.toplevel_6)) 
+			self.toplevel_6.minsize(300,50)
+			self.toplevel_6.maxsize(300,50)
+			self.toplevel_6.title('renomear deck')
+
+			lb2 = tkinter.Label(self.toplevel_6, text='Nome:')
+			lb2.pack(side=tkinter.LEFT)
+			self.ent3 = tkinter.Entry(self.toplevel_6)
+			self.ent3.pack(side=tkinter.LEFT)
+			bt = tkinter.Button(self.toplevel_6, text='Adicionar', command=lambda:self.item_selecionado_renomear_2(item_selecionado_listbox))
+			bt.pack(side=tkinter.RIGHT)
+		except(IndexError):
+			messagebox.showerror('Erro', 'Nenhum deck foi selecionado')
+
+	def item_selecionado_renomear_2(self, item_selecionado_listbox):
+		bd = Banco_dados()
+		bd.conectar()
+		codigo = bd.puxar_codigo_deck(item_selecionado_listbox)
+		novo_nome = self.ent3.get()
+		self.control.deck = novo_nome
+		print(self.control.deck)
+		print(codigo)
+		bd.renomear_deck(self.control.deck, codigo)
+		bd.fechar_banco()
+		self.atualizar()
+		del self.toplevel_3
+		del self.toplevel_6
+		del self.toplevel_5
 
 	def bloquear_botoes(self):
 		self.mb['state'] = tkinter.DISABLED
