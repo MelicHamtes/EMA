@@ -5,15 +5,15 @@ from Informacoes import Informacoes
 import sys
 
 class Menu:
-	def __init__(self, usuario):
+	def __init__(self, usuario, nome_user=None):
 		self.usuario = usuario
 		self.janela = tkinter.Tk()
-		self.janela.geometry('600x400+400+150')
+		self.janela.geometry('400x250+400+150')
 		self.janela.title('Menu EMA')
 		self.janela.resizable(0,0)
 		self.janela.protocol('WM_DELETE_WINDOW', lambda: sys.exit())
-		lb = tkinter.Label(self.janela, text='EMA - Estudo, memorização e aprendizagem')
-		lb.pack(side=tkinter.TOP)
+		lb = tkinter.Label(self.janela, text='EMA - Estudo, memorização e aprendizagem', font=('Arial','8', 'bold'))
+		lb.pack(side=tkinter.BOTTOM)
 
 		self.menu = tkinter.Menu(self.janela)
 		self.menu_SRS = tkinter.Menu(self.menu, tearoff=0)
@@ -28,6 +28,16 @@ class Menu:
 		self.menu.add_cascade(label='Info', menu=self.menuInfo)		
 
 		self.janela.config(menu=self.menu)
+
+		self.frame_1 =  tkinter.Frame()
+
+		self.label =  tkinter.Label(self.frame_1, text='Bem vindo, ' + nome_user)
+		self.label_2 = tkinter.Label(self.frame_1, text='Deck:')
+		self.label_3 = tkinter.Label(self.frame_1, text='Cards:')
+		self.label.pack(anchor=tkinter.CENTER)
+		self.label_2.pack(anchor=tkinter.CENTER)
+		self.label_3.pack(anchor=tkinter.CENTER)
+		self.frame_1.pack(side=tkinter.LEFT, anchor=tkinter.CENTER)
 
 		self.janela.mainloop()
 		 	

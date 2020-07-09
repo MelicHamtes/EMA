@@ -13,6 +13,7 @@ class Informacoes:
 
 		font_title = Font(family='Arial', size=12, weight='bold')
 		font_text = Font(family='Arial', size=10)
+		
 		self.lb1 = tk.Label(self.janela_info, text='SRS')
 		self.lb1.configure(font=font_title)
 		self.lb1.pack(side=tk.TOP)

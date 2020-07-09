@@ -8,34 +8,49 @@ class Editar_cartoes:
 	def __init__(self, nome_deck):
 		self.janela = tkinter.Tk()
 		self.janela.title('Configurações de card')
-		self.janela.geometry("460x190+350+150")
+		self.janela.geometry("460x190+850+150")
 		self.janela.resizable(0,0)
+		self.janela.protocol('WM_DELETE_WINDOW', lambda: sys.exit()) 
+
 
 		# Chama da classe controladora de dados 
 		self.control = Deck()
 		self.control.deck = nome_deck
+		bd = Banco_dados()
+		bd.conectar()
+		self.codigo_deck = bd.puxar_codigo_deck(nome_deck)
 
 		fram=tkinter.Frame(self.janela)
+
 		fr=tkinter.Frame(fram)
 		frameF=tkinter.LabelFrame(fr)
+
 		lb1 = tkinter.Label(frameF, text='Frente:')
 		lb1.pack(side=tkinter.LEFT)
+
 		self.ent1 = tkinter.Text(frameF, width = 30, height=4)
 		self.ent1.pack()
+
 		frameF.pack()
 
 		frameV= tkinter.LabelFrame(fr)
+
 		lb2 =tkinter.Label(frameV, text='Verso: ')
 		lb2.pack(side=tkinter.LEFT)
+
 		self.ent2 =tkinter.Text(frameV, width=30, height = 4)
 		self.ent2.pack()
+
 		frameV.pack()
 
 		framebt=tkinter.LabelFrame(fr)
+
 		self.btM=tkinter.Button(framebt,text="Mostar Cards",width=10,height=1, command=self.mostrar_deck)
 		self.btM.pack(side=tkinter.LEFT)
+
 		btL=tkinter.Button(framebt,text="Limpar",width=10,height=1, command=self.limpar_entries)
 		btL.pack(side=tkinter.RIGHT)
+
 		framebt.pack(expand=1,fill=tkinter.BOTH)
 		fr.pack(side=tkinter.LEFT)
 
@@ -56,26 +71,9 @@ class Editar_cartoes:
 
 		frameBot.pack(side=tkinter.RIGHT,anchor=tkinter.N)
 		fram.pack(anchor=tkinter.CENTER)
-		
+
 		self.janela.mainloop()
 
-	# método que puxa valores, dada a frente do card
-	'''
-	def puxar(self):
-		c = self.ent3.get()
-		try:
-			self.control.codigo = c
-			codigo,frente, verso = self.bd.puxar_card(self.control.codigo)
-			
-			if self.ent1.get(1.0,tkinter.END) != '' or  self.ent2.get(1.0, END) != '':
-				self.limpar_entries()
-
-			self.ent1.insert(1.0, frente)
-			self.ent2.insert(1.0, verso)
-			self.ent3.insert(0, codigo)
-		except (TypeError):
-			messagebox.showerror('Botão: Pesquisar', 'ERRO: o código não corresponde, possiveis erros:\n1- verifique se o valor é um número\n2- verifique se a caixa não está vazia\n3- verifique se o codigo existe.')
-	'''
 	# método adicionador de cards
 	def adicionar(self):
 		try:
@@ -89,10 +87,12 @@ class Editar_cartoes:
 			self.control.frente = f
 			self.control.verso = v
 			#print(f,v) # TESTE
-			
-			self.bd.inserir_card(self.control.frente, self.control.verso, self.codigo_deck)
+			bd = Banco_dados()
+			bd.conectar()
+			bd.inserir_card(self.control.frente, self.control.verso, self.codigo_deck)
 			self.mostrar_deck()
 			self.limpar_entries()
+			bd.fechar_banco()
 			#print('Sucesso') # TESTE
 		except (AttributeError):
 			f = self.ent1.get(1.0, tkinter.END)	
@@ -100,7 +100,10 @@ class Editar_cartoes:
 			self.control.frente = f
 			self.control.verso = v
 			#print(f,v) # TESTE
-			self.bd.inserir_card(self.control.frente, self.control.verso, self.codigo_deck)
+			bd = Banco_dados()
+			bd.conectar()
+			bd.inserir_card(self.control.frente, self.control.verso, self.codigo_deck)
+			bd.fechar_banco()
 			self.limpar_entries()
 			#print('Sucesso') # TESTE
 		except (Exception):
@@ -111,19 +114,25 @@ class Editar_cartoes:
 		try:
 			f = self.ent1.get(1.0, tkinter.END)
 			self.control.frente = f
-			c = self.bd.puxar_codigo_card(self.control.frente)
-			self.bd.deletar_card(c)
+			bd = Banco_dados()
+			bd.conectar()
+			c = bd.puxar_codigo_card(self.control.frente)
+			bd.deletar_card(c)
 			self.fechar_toplevel()
 			self.mostrar_deck()
 			self.limpar_entries()
+			bd.fechar_banco()
 			#print('Sucesso') # TESTE
 		except (TypeError):
 			messagebox.showerror('Botão: Remover', 'ERRO: o código não corresponde, possiveis erros:\n1- verifique se o valor é um número\n2- verifique se a caixa não está vazia\n3- verifique se o codigo existe.')
 		except (AttributeError):
+			bd = Banco_dados()
+			bd.conectar()
 			f = self.ent1.get(1.0, tkinter.END)
-			c = self.bd.puxar_codigo_card(self.control.frente)
-			self.bd.deletar_card(c)
+			c = bd.puxar_codigo_card(self.control.frente)
+			bd.deletar_card(c)
 			self.limpar_entries()
+			bd.fechar_banco()
 			#print('Sucesso') # TESTE
 
 
@@ -134,15 +143,17 @@ class Editar_cartoes:
 		v = self.ent2.get(1.0, tkinter.END)
 		self.control.frente = f
 		self.control.verso = v
+		bd = Banco_dados()
+		bd.conectar()
 		#self.control.codigo = c
-		c = self.bd.puxar_codigo_card(self.frente_deck)
-		print(c)
+		c = bd.puxar_codigo_card(self.frente_deck)
 		if self.control.frente == '' or self.control.verso == '':
 			raise Exception('Vazio')
-		self.bd.alterar_card(self.control.codigo, self.control.frente, self.control.verso)
+		bd.alterar_card(self.control.codigo, self.control.frente, self.control.verso)
 		self.fechar_toplevel()
 		self.mostrar_deck()
 		self.limpar_entries()
+		bd.fechar_banco()
 			#print('Sucesso') # TESTE
 		#except (TypeError):
 			#messagebox.showerror('Botão: Alterar', 'ERRO: o código não corresponde, possiveis erros:\n1- verifique se o valor é um número\n2- verifique se a caixa não está vazia\n3- verifique se o codigo existe.')
@@ -151,18 +162,18 @@ class Editar_cartoes:
 		v = self.ent2.get(1.0, tkinter.END)
 		self.control.frente = f
 		self.control.verso = v
-		c = self.bd.puxar_codigo_card(self.frente_deck)
-		print(c)
-		self.bd.alterar_card(c, self.control.frente, self.control.verso)
+		bd = Banco_dados()
+		bd.conectar()
+		c = bd.puxar_codigo_card(self.frente_deck)
+		bd.alterar_card(c, self.control.frente, self.control.verso)
 		self.fechar_toplevel()
 		self.mostrar_deck()
 		self.limpar_entries()
+		bd.fechar_banco()
 		#print('Sucesso') # TESTE
 		#except (Exception):
 			#messagebox.showerror('Botão: Alterar','ERRO: Frente ou verso estão vazios')
 
-
-		
 	# método de aviso sobre remoção de cards
 	def adendo(self):
 		tkinter.messagebox.showinfo('Adendo', '*Para remover ou pesquisar um card, insira somente o codigo do mesmo*')
@@ -173,8 +184,9 @@ class Editar_cartoes:
 		#self.ent3.delete(0,tkinter.END)
  	
 	def mostrar_deck(self):
-		self.janela.geometry('400x200+500+500')
+		self.janela.geometry('460x190+550+150')
 		self.toplevel = tkinter.Toplevel(self.janela)
+		self.toplevel.group(self.janela)
 		self.toplevel.protocol('WM_DELETE_WINDOW', self.fechar_toplevel) # Reescreve o método de fechar janela (x)
 		self.toplevel.minsize(400,300)
 		self.toplevel.maxsize(400,300)
@@ -184,7 +196,6 @@ class Editar_cartoes:
 		self.bd = Banco_dados(self.control.deck)
 		self.bd.conectar()
 		self.codigo_deck = self.bd.puxar_codigo_deck(self.control.deck)
-
 
 		self.listbox = tkinter.Listbox(self.toplevel, font='-size 10', width=40, height=30, bd=0)
 		self.listbox.bind('<Button-1>', self.card_selecionado)
@@ -207,13 +218,14 @@ class Editar_cartoes:
 
 	def fechar_toplevel(self):
 		self.toplevel.destroy()
-		self.janela.geometry('400x200+100+100')
+		self.janela.geometry("460x190+350+150")
+		#self.janela.geometry('400x200+100+100')
 		del self.toplevel
 		self.btM['state'] = tkinter.NORMAL
 		self.deck = self.bd.puxar_deck(self.codigo_deck)
 
 	def card_selecionado(self, *args):
-		self.janela.geometry('400x200+100+100')
+		self.janela.geometry("460x190+350+150")
 		self.limpar_entries()
 		card_codigo = self.listbox.curselection()
 		card = self.listbox.get(card_codigo[0])
@@ -232,6 +244,7 @@ class Editar_cartoes:
 		print(card_codigo)
 		self.fechar_toplevel()
 		self.mostrar_deck()
+		self.janela.lift()
 		
 		
 if __name__ == '__main__':

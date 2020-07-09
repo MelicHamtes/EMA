@@ -4,6 +4,7 @@ from tkinter import messagebox
 from Banco_armazenamento.Banco_dados import Banco_dados
 from Usuario import Usuario
 from Menu import Menu
+import sys
 
 class TelaLogin:
     def __init__(self):
@@ -79,6 +80,7 @@ class TelaLogin:
         self.bd = Banco_dados()
         self.bd.conectar()
         login = self.bd.puxar_login()
+        print(login)
 
         if usuario != '' and senha != '':
             user = self.bd.puxar_login(username=usuario)
@@ -86,14 +88,18 @@ class TelaLogin:
             if user:
                 if user[0][1] == senha:
                     id_user = user[0][2]
-                    self.Menu(id_user)    
+                    nome = user[0][3]
+                    messagebox.showinfo('Login', 'Bem vindo, ' + user[0][3])
+                    self.Menu(id_user, nome)    
                 else:
                     messagebox.showerror('Login','usuário e/ou senha inválidos')
 
             elif email:
                 if email[0][1] == senha:
                     id_user = email[0][2]
-                    self.Menu(id_user)
+                    nome = user[0][3]
+                    messagebox.showinfo('Login', 'Bem vindo, ' + email[0][3])
+                    self.Menu(id_user, nome)
             else:
                 messagebox.showerror('Login','usuário e/ou senha inválidos')
                 
@@ -107,16 +113,16 @@ class TelaLogin:
 
         self.bd.fechar_banco()
 
-    def Menu(self, usuario):
+    def Menu(self, usuario, nome):
         self.master.destroy()
-        menu = Menu(usuario)
+        menu = Menu(usuario, nome)
 
     def cadastrar_toplevel(self):
         self.autenticarLogin['state'] = DISABLED
         self.master.withdraw()
         self.toplevel = Toplevel(self.master)
         self.toplevel.protocol('WM_DELETE_WINDOW', lambda: self.sair())
-        self.toplevel.title('Registro')
+        self.toplevel.title('Registroo')
         self.fontePadrao = ("Arial", "10")
         self.primeiroContainer = Frame(self.toplevel)
         self.primeiroContainer["pady"] = 10

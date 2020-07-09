@@ -40,7 +40,7 @@ class Banco_dados:
 		self.cursor.execute('UPDATE Deck SET nome = (?) WHERE codigo = (?)', (nome_deck, codigo,))
 		self.conexao.commit()
 
-	def puxar_deck(self, cosdigo_deck):
+	def puxar_deck(self, codigo_deck):
 		self.cursor.execute('SELECT frenteCard, versoCard FROM Card WHERE codigoDeck = (?)', (codigo_deck,))
 		deck = {}
 		for linha_card in self.cursor.fetchall():
@@ -93,7 +93,7 @@ class Banco_dados:
 		
 	def puxar_login(self, user_id=None, email=None, username=None):
 		if username != None:
-			self.cursor.execute('SELECT userName, senha, id FROM Usuario WHERE userName = (?)', (username,))
+			self.cursor.execute('SELECT userName, senha, id, nome FROM Usuario WHERE userName = (?)', (username,))
 			user = []
 			for linha in self.cursor.fetchall():
 				user.append(linha)
@@ -107,7 +107,7 @@ class Banco_dados:
 			return user
 
 		if email != None:
-			self.cursor.execute('SELECT userName, senha, id FROM Usuario WHERE email = (?)', (email,))
+			self.cursor.execute('SELECT userName, senha, id, nome FROM Usuario WHERE email = (?)', (email,))
 			user = []
 			for linha in self.cursor.fetchall():
 				user.append(linha)

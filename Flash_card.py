@@ -79,8 +79,9 @@ class Flash_Card():
 					rand = choice(list(self.conjunto_padrão.keys()))
 					self.index_pack.remove(rand)
 					print(self.index_pack)
-					
+
 		self.janela.mainloop()
+					
 
 	def iniciar(self):
 		try:
@@ -122,6 +123,8 @@ class Flash_Card():
 		self.lb1['text'] = ''
 		self.lb2['text'] = ''
 
+	def fechar_janela(self):
+		self.janela.destroy()
 
 if __name__ == '__main__':
 	janela = Flash_Card()
