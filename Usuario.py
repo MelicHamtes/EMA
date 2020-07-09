@@ -21,7 +21,7 @@ class Usuario:
 	def senha(self, senha):
 		if senha != '':
 			if len(senha) < 6:
-				self.__senha = 'número de caracteres da senha insuficiente'
+				self.__senha = 'número de caracteres da senha insuficiente, mínimo 6'
 			else:
 				self.__senha = senha
 		else:
@@ -50,7 +50,7 @@ class Usuario:
 	def username(self, username):
 		if username != '':
 			if len(username) < 4:
-				self.__username = 'número de caracteres de usuário insuficiente'
+				self.__username = 'número de caracteres de usuário insuficiente, mínimo 4'
 			else:
 				self.__username = username
 		else:

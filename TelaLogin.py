@@ -79,8 +79,8 @@ class TelaLogin:
         senha = self.senhaLogin.get()
         self.bd = Banco_dados()
         self.bd.conectar()
-        login = self.bd.puxar_login()
-        print(login)
+        self.login = self.bd.puxar_login()
+        print(self.login)
 
         if usuario != '' and senha != '':
             user = self.bd.puxar_login(username=usuario)
@@ -122,7 +122,7 @@ class TelaLogin:
         self.master.withdraw()
         self.toplevel = Toplevel(self.master)
         self.toplevel.protocol('WM_DELETE_WINDOW', lambda: self.sair())
-        self.toplevel.title('Registroo')
+        self.toplevel.title('Cadastro')
         self.fontePadrao = ("Arial", "10")
         self.primeiroContainer = Frame(self.toplevel)
         self.primeiroContainer["pady"] = 10
@@ -160,23 +160,6 @@ class TelaLogin:
         self.nonoContainer = Frame(self.toplevel)
         self.nonoContainer["padx"] = 40
         self.nonoContainer.pack()
-
-        self.bt1 = Button(self.segundoContainer, text='*', width=0, height=0, bd=0)
-        self.bt1.pack(side=RIGHT)
-
-        self.bt2 = Button(self.terceiroContainer, text='*', width=0, height=0, bd=0)
-        self.bt2.pack(side=RIGHT)
-
-        self.bt3 = Button(self.quartoContainer, text='*', width=0, height=0, bd=0)
-        self.bt3.pack(side=RIGHT)
-
-        self.bt4 = Button(self.quintoContainer, text='*', width=0, height=0, bd=0)
-        self.bt4.pack(side=RIGHT)
-
-        self.bt5 = Button(self.sextoContainer, text='*', width=0, height=0, bd=0)
-        self.bt5.pack(side=RIGHT)
-
-
 
         self.titulo = Label(self.primeiroContainer, text=" Cadastrar Dados do usuário")
         self.titulo["font"] = ("Arial", "10", "bold")
@@ -239,7 +222,11 @@ class TelaLogin:
         self.usuario_control.nome = nome
         self.usuario_control.senha = senha
         self.usuario_control.email = email
-        self.usuario_control.username = username  
+        self.usuario_control.username = username 
+        bd = Banco_dados()
+        bd.conectar()
+        user = bd.puxar_login(username=self.usuario_control.username)
+        bd.fechar_banco()
 
         erro_1 = True
         erro_2 = True
@@ -249,34 +236,40 @@ class TelaLogin:
         try:
             if self.usuario_control.nome == 'nome não pode conter números' or self.usuario_control.nome == 'nome está vazio':
                 erro_1 = False
-            if self.usuario_control.senha == 'número de caracteres da senha insuficiente' or self.usuario_control.senha == 'senha está vazia':
+            if self.usuario_control.senha == 'número de caracteres da senha insuficiente, mínimo 6' or self.usuario_control.senha == 'senha está vazia':
                 erro_2 = False
             if self.usuario_control.email == 'email está vazio' or self.usuario_control.email == 'email não contem endereço correto':
                 erro_3 = False
-            if self.usuario_control.username == 'número de caracteres de usuário insuficiente' or self.usuario_control.username == 'username está vazio':
+            if self.usuario_control.username == 'número de caracteres de usuário insuficiente, mínimo 4' or self.usuario_control.username == 'username está vazio':
                 erro_4 = False
-
             if erro_1 == False and erro_2 == False and erro_3 == False and erro_4 == False:
                 raise Exception(self.usuario_control.nome + '\n' + self.usuario_control.senha + '\n' + self.usuario_control.email + '\n' + self.usuario_control.username)
             elif erro_1 == False or erro_2 == False or erro_3 == False or erro_4 == False:
                 erro_raise = ''
+                n_erros = 1
                 if erro_1 == False:
-                    erro_raise = self.usuario_control.nome + '\n'
+                    erro_raise =  str(n_erros) + '- ' + self.usuario_control.nome + '\n'
                 if erro_2 == False:
-                    erro_raise = erro_raise + self.usuario_control.senha + '\n'
+                    erro_raise = erro_raise + '\n' +str(n_erros) + '- ' + self.usuario_control.senha + '\n'
+                    n_erros = n_erros + 1
                 if erro_3 == False:
-                    erro_raise = erro_raise + self.usuario_control.email + '\n'
+                    erro_raise = erro_raise + '\n' +str(n_erros) + '- ' + self.usuario_control.email + '\n'
+                    n_erros = n_erros + 1
                 if erro_4 == False:
-                    erro_raise = erro_raise + self.usuario_control.username + '\n'
+                    erro_raise = erro_raise + '\n' + str(n_erros) + '- ' +  self.usuario_control.username
+                    n_erros = n_erros + 1
                 raise Exception(erro_raise)
+            elif user:
+                raise AttributeError('Usuario já cadastrado')
             else:
                 bd = Banco_dados()
                 bd.conectar()
-                bd.criar_login(self.usuario_control.nome,self.usuario_control.username,self.usuario_control.senha, self.usuario_control.email)
+                bd.criar_login(self.usuario_control.nome,self.usuario_control.username,self.usuario_control.senha, self.usuario_control.email)            
                 self.sair()
-
         except Exception as error:
             messagebox.showerror('Erros', error)
+        except AttributeError:
+            messagebox.showerror('Erro','username já registrado')
 
     def sair(self):
         self.master.destroy()

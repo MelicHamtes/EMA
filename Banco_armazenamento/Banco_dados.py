@@ -83,9 +83,9 @@ class Banco_dados:
 
 	def puxar_codigo_card(self, frente):
 		self.cursor.execute('SELECT idCard FROM Card WHERE frenteCard = (?)', (frente,))
-		codigo = self.cursor.fetchall()
-		codigo = codigo[0]
-		return codigo
+		codigo = self.cursor.fetchone()
+		codigo_card = codigo[0]
+		return codigo_card
 
 	def criar_login(self, nome, username, senha, email):
 		self.cursor.execute('INSERT INTO Usuario VALUES (?,?,?,?,?)', (None,nome, senha, email, username))

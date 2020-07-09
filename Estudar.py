@@ -137,7 +137,12 @@ class Estudar:
 			elif self.modo == 'numero de cards':
 				if self.n_deck == 0:
 					raise IndexError('sem cards')
-				self.numero_cards = int(self.entN.get())
+				self.numero_cards = self.entN.get()
+				if not self.numero_cards.isdigit():
+					raise ValueError('Erro')
+				self.numero_cards = int(self.numero_cards)
+				if self.numero_cards > 500:
+					raise Exception('Limite')
 				self.janela_estudo.destroy()
 				fc = Flash_Card(self.item_selecionado_listbox, self.modo, self.numero_cards)
 				deck_estudo = Estudar(self.usuario)
@@ -149,7 +154,10 @@ class Estudar:
 			messagebox.showerror('Erro','Nenhum baralho foi selecionado')
 		except (IndexError):
 			messagebox.showerror('Erro', 'Não há nenhum card no baralho')
-
+		except (ValueError):
+			messagebox.showerror('Número de cartões','Digite somente números')
+		except (Exception):
+			messagebox.showerror('Limite', 'Limite de repetições é 500')
 	def fechar_toplevel(self, toplevel):
 		toplevel.destroy()
 		self.bt1['state'] = tkinter.NORMAL

@@ -138,38 +138,46 @@ class Editar_cartoes:
 
 	# método alterador de cards
 	def alterar(self):
-		#try:	
-		f = self.ent1.get(1.0, tkinter.END)
-		v = self.ent2.get(1.0, tkinter.END)
-		self.control.frente = f
-		self.control.verso = v
-		bd = Banco_dados()
-		bd.conectar()
-		#self.control.codigo = c
-		c = bd.puxar_codigo_card(self.frente_deck)
-		if self.control.frente == '' or self.control.verso == '':
-			raise Exception('Vazio')
-		bd.alterar_card(self.control.codigo, self.control.frente, self.control.verso)
-		self.fechar_toplevel()
-		self.mostrar_deck()
-		self.limpar_entries()
-		bd.fechar_banco()
+		try:	
+			f = self.ent1.get(1.0, tkinter.END)
+			v = self.ent2.get(1.0, tkinter.END)
+			self.control.frente = f
+			self.control.verso = v
+
+			if self.control.frente == '' or self.control.verso == '':
+				raise Exception('Vazio')
+
+			bd = Banco_dados()
+			bd.conectar()
+			#self.control.codigo = c
+			print(self.frente_antigo)
+			print(self.control.frente)
+			print(self.control.verso)
+			if self.frente_antigo:
+				c = bd.puxar_codigo_card(self.frente_antigo)
+				bd.alterar_card(c, self.control.frente, self.control.verso)
+			self.fechar_toplevel()
+			self.atualizar()
+			self.mostrar_deck()
+			self.limpar_entries()
+			bd.fechar_banco()
 			#print('Sucesso') # TESTE
-		#except (TypeError):
-			#messagebox.showerror('Botão: Alterar', 'ERRO: o código não corresponde, possiveis erros:\n1- verifique se o valor é um número\n2- verifique se a caixa não está vazia\n3- verifique se o codigo existe.')
-		#except (AttributeError):
-		f = self.ent1.get(1.0, tkinter.END)
-		v = self.ent2.get(1.0, tkinter.END)
-		self.control.frente = f
-		self.control.verso = v
-		bd = Banco_dados()
-		bd.conectar()
-		c = bd.puxar_codigo_card(self.frente_deck)
-		bd.alterar_card(c, self.control.frente, self.control.verso)
-		self.fechar_toplevel()
-		self.mostrar_deck()
-		self.limpar_entries()
-		bd.fechar_banco()
+		except (Exception):
+			messagebox.showerror('Botão: Alterar', 'ERRO: o código não corresponde, possiveis erros:\n1- verifique se o valor é um número\n2- verifique se a caixa não está vazia\n3- verifique se o codigo existe.')
+		except (AttributeError):
+			self.fechar_toplevel()
+			f = self.ent1.get(1.0, tkinter.END)
+			v = self.ent2.get(1.0, tkinter.END)
+			self.control.frente = f
+			self.control.verso = v
+			bd = Banco_dados()
+			bd.conectar()
+			c = bd.puxar_codigo_card(self.frente_antigo)
+			bd.alterar_card(c, self.control.frente, self.control.verso)
+			self.fechar_toplevel()
+			self.mostrar_deck()
+			self.limpar_entries()
+			bd.fechar_banco()
 		#print('Sucesso') # TESTE
 		#except (Exception):
 			#messagebox.showerror('Botão: Alterar','ERRO: Frente ou verso estão vazios')
@@ -209,7 +217,7 @@ class Editar_cartoes:
 			i_2 = 1
 			for chave, valor in self.deck.items():
 				cod = self.bd.puxar_codigo_card(deck_keys[i])
-				a = str(i) + ' ' + str(deck_keys[i])+':'+ str(self.deck[chave])	
+				a = str(deck_keys[i])+':'+ str(self.deck[chave])	
 				self.listbox.insert(i, a)
 				i_2 += 1
 				i += 1
@@ -223,29 +231,25 @@ class Editar_cartoes:
 		del self.toplevel
 		self.btM['state'] = tkinter.NORMAL
 		self.deck = self.bd.puxar_deck(self.codigo_deck)
+		self.frente_antigo = ''
 
 	def card_selecionado(self, *args):
 		self.janela.geometry("460x190+350+150")
 		self.limpar_entries()
 		card_codigo = self.listbox.curselection()
 		card = self.listbox.get(card_codigo[0])
-		self.frente_deck = ''
-		card = card.replace(card[0],'')
-		card = card.replace(card[0],'')
 		for i in range(len(card)):
 			if card[i] == ':':
 				i_2 = i + 1
-				frente = card[:i]
-				verso = card[i_2:]
-				self.frente_deck = self.frente_deck.replace(card[i_2:],'')
-				print(frente, verso)
-				self.ent1.insert(1.0, frente)
-				self.ent2.insert(1.0, verso)
-		print(card_codigo)
-		self.fechar_toplevel()
-		self.mostrar_deck()
+				self.frente_antigo = card[:i]
+				self.verso_antigo = card[i_2:]
+				self.ent1.insert(1.0, self.frente_antigo)
+				self.ent2.insert(1.0, self.verso_antigo)
+
 		self.janela.lift()
 		
+	def atualizar(self):
+		pass
 		
 if __name__ == '__main__':
 	idc = IDC('teste')

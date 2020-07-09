@@ -16,7 +16,7 @@ class Configuracoes_deck:
 		self.control = Deck()
 		self.janela_configuracoes.resizable(0,0)
 		self.janela_configuracoes.geometry('+550+350')
-		self.janela_configuracoes.protocol('WM_DELETE_WINDOW', lambda: sys.exit()) 
+		self.janela_configuracoes.protocol('WM_DELETE_WINDOW', lambda: self.janela_configuracoes.destroy()) 
 
 		if platform.system() == 'Linux':
 			self.dir_path = os.path.dirname(os.path.realpath(__file__)) + '/Banco_armazenamento/db/Ema'
