@@ -16,6 +16,9 @@ class Menu:
 		lb = tkinter.Label(self.janela, text='EMA - Estudo, memorização e aprendizagem', font=('Arial','8', 'bold'))
 		lb.pack(side=tkinter.BOTTOM)
 
+		img = tkinter.PhotoImage(file='EMA4.png')
+		label_imagem = tkinter.Label(self.janela, image=img).pack()
+
 		self.menu = tkinter.Menu(self.janela)
 		self.menu_SRS = tkinter.Menu(self.menu, tearoff=0)
 

@@ -14,7 +14,7 @@ class Estudar:
 		self.usuario = usuario
 		self.janela_estudo = tkinter.Tk()
 		self.janela_estudo.geometry("400x210+450+250")
-		#self.janela_estudo.resizable(0,0)
+		self.janela_estudo.resizable(0,0)
 		self.janela_estudo.title('Estudar')
 		self.janela_estudo.protocol('WM_DELETE_WINDOW', lambda: self.fechar_janela(self.janela_estudo))
 

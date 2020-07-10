@@ -78,9 +78,8 @@ class Configuracoes_deck:
 
 	# Janela de toplevel para selecionar deck (banco de dados) e abrir janela na qual os cards serão estudados (exbidos)
 	def janela_abrir_decks(self):
-		self.bloquear_botoes()
-		deck_estudo = Estudar(self.usuario)
 		self.janela_configuracoes.destroy()
+		deck_estudo = Estudar(self.usuario)
 		config_deck = Configuracoes_deck(self.usuario)
 	
 	# Janela de toplevel para selecionar deck (banco de dados) e abrir janela na qual os cards serão modificados

@@ -10,7 +10,7 @@ class Editar_cartoes:
 		self.janela.title('Configurações de card')
 		self.janela.geometry("460x190+850+150")
 		self.janela.resizable(0,0)
-		self.janela.protocol('WM_DELETE_WINDOW', lambda: sys.exit()) 
+		self.janela.protocol('WM_DELETE_WINDOW', lambda: self.janela.destroy()) 
 
 
 		# Chama da classe controladora de dados 
@@ -45,8 +45,8 @@ class Editar_cartoes:
 
 		framebt=tkinter.LabelFrame(fr)
 
-		self.btM=tkinter.Button(framebt,text="Mostar Cards",width=10,height=1, command=self.mostrar_deck)
-		self.btM.pack(side=tkinter.LEFT)
+		#self.btM=tkinter.Button(framebt,text="Mostar Cards",width=10,height=1, command=self.mostrar_deck)
+		#self.btM.pack(side=tkinter.LEFT)
 
 		btL=tkinter.Button(framebt,text="Limpar",width=10,height=1, command=self.limpar_entries)
 		btL.pack(side=tkinter.RIGHT)
@@ -56,9 +56,6 @@ class Editar_cartoes:
 
 
 		frameBot=tkinter.LabelFrame(fram,text="Cardº")
-		lbS=tkinter.Label(frameBot,text="aqui ficara o card selecionado",font=("Arial","7","bold"))
-		lbS.pack(side=tkinter.TOP,anchor=tkinter.NW,expand=1,fill=tkinter.BOTH)
-
 
 		btADIC=tkinter.Button(frameBot,text="Adicionar", command=self.adicionar)
 		btADIC.pack(side=tkinter.BOTTOM,expand=1,fill=tkinter.BOTH)
@@ -71,7 +68,7 @@ class Editar_cartoes:
 
 		frameBot.pack(side=tkinter.RIGHT,anchor=tkinter.N)
 		fram.pack(anchor=tkinter.CENTER)
-
+		self.mostrar_deck()
 		self.janela.mainloop()
 
 	# método adicionador de cards
@@ -95,6 +92,7 @@ class Editar_cartoes:
 			bd.fechar_banco()
 			#print('Sucesso') # TESTE
 		except (AttributeError):
+			self.fechar_toplevel()
 			f = self.ent1.get(1.0, tkinter.END)	
 			v = self.ent2.get(1.0, tkinter.END)
 			self.control.frente = f
@@ -104,6 +102,7 @@ class Editar_cartoes:
 			bd.conectar()
 			bd.inserir_card(self.control.frente, self.control.verso, self.codigo_deck)
 			bd.fechar_banco()
+			self.mostrar_deck()
 			self.limpar_entries()
 			#print('Sucesso') # TESTE
 		except (Exception):
@@ -126,6 +125,7 @@ class Editar_cartoes:
 		except (TypeError):
 			messagebox.showerror('Botão: Remover', 'ERRO: o código não corresponde, possiveis erros:\n1- verifique se o valor é um número\n2- verifique se a caixa não está vazia\n3- verifique se o codigo existe.')
 		except (AttributeError):
+			self.fechar_toplevel()
 			bd = Banco_dados()
 			bd.conectar()
 			f = self.ent1.get(1.0, tkinter.END)
@@ -133,12 +133,13 @@ class Editar_cartoes:
 			bd.deletar_card(c)
 			self.limpar_entries()
 			bd.fechar_banco()
+			self.mostrar_deck()
 			#print('Sucesso') # TESTE
 
 
 	# método alterador de cards
 	def alterar(self):
-		try:	
+		try:
 			f = self.ent1.get(1.0, tkinter.END)
 			v = self.ent2.get(1.0, tkinter.END)
 			self.control.frente = f
@@ -150,9 +151,6 @@ class Editar_cartoes:
 			bd = Banco_dados()
 			bd.conectar()
 			#self.control.codigo = c
-			print(self.frente_antigo)
-			print(self.control.frente)
-			print(self.control.verso)
 			if self.frente_antigo:
 				c = bd.puxar_codigo_card(self.frente_antigo)
 				bd.alterar_card(c, self.control.frente, self.control.verso)
@@ -174,7 +172,6 @@ class Editar_cartoes:
 			bd.conectar()
 			c = bd.puxar_codigo_card(self.frente_antigo)
 			bd.alterar_card(c, self.control.frente, self.control.verso)
-			self.fechar_toplevel()
 			self.mostrar_deck()
 			self.limpar_entries()
 			bd.fechar_banco()
@@ -195,10 +192,10 @@ class Editar_cartoes:
 		self.janela.geometry('460x190+550+150')
 		self.toplevel = tkinter.Toplevel(self.janela)
 		self.toplevel.group(self.janela)
-		self.toplevel.protocol('WM_DELETE_WINDOW', self.fechar_toplevel) # Reescreve o método de fechar janela (x)
+		self.toplevel.protocol('WM_DELETE_WINDOW', lambda: messagebox.showinfo('Não','bobão, não pode fechar')) # Reescreve o método de fechar janela (x)
 		self.toplevel.minsize(400,300)
 		self.toplevel.maxsize(400,300)
-		self.btM['state'] = tkinter.DISABLED	
+		#self.btM['state'] = tkinter.DISABLED	
 
 		# Chamada de banco de dados 
 		self.bd = Banco_dados(self.control.deck)
@@ -226,10 +223,9 @@ class Editar_cartoes:
 
 	def fechar_toplevel(self):
 		self.toplevel.destroy()
-		self.janela.geometry("460x190+350+150")
+		self.janela.geometry('460x190+550+150')
 		#self.janela.geometry('400x200+100+100')
-		del self.toplevel
-		self.btM['state'] = tkinter.NORMAL
+		#	self.btM['state'] = tkinter.NORMAL
 		self.deck = self.bd.puxar_deck(self.codigo_deck)
 		self.frente_antigo = ''
 
