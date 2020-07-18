@@ -1,10 +1,10 @@
 # EMA
 Welcome to the EMA wiki!
 
-<h1>Introdução</h1>
+<h2>Introdução</h2>
 <p align="justify">Um projeto que tem como intuito fornecer a funcionalidade memorização e aprendizado de quaisquer que seja o tema estudado pelo usuário,  utilizando do <strong>SRS</strong> (Spaced Repetition System - Sistema de Repetição Espaçada ), que é uma técnica de memorização que auxilia o arquivamento das informações em memória de longo prazo.</p>
 
-<h1>Descrição</h1>
+<h2>Descrição</h2>
 <p>
  O software irá conter uma aba criação de pastas onde em cada pasta criada pelo usuário pode ser adicionado um ou mais cartões, dependendo da necessidade e assunto estudado por ele, e cada um desses cartões conterá frente e verso com uma área específica para entrada desses dados. </p>
 <p> Os cartões poderão ser reprisados infinitamente e de maneira aleatória caso o usuário deseje, assim ele poderá definir um temporizador para quanto tempo deseja estudar os cartões definidos por ele.</p>
