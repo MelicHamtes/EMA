@@ -55,7 +55,7 @@ class Editar_cartoes:
 		fr.pack(side=tkinter.LEFT)
 
 
-		frameBot=tkinter.LabelFrame(fram,text="Cardº")
+		frameBot=tkinter.LabelFrame(fram,text="Cartãoº")
 
 		btADIC=tkinter.Button(frameBot,text="Adicionar", command=self.adicionar)
 		btADIC.pack(side=tkinter.BOTTOM,expand=1,fill=tkinter.BOTH)
@@ -208,7 +208,6 @@ class Editar_cartoes:
 		
 		try:
 			self.deck = self.bd.puxar_deck(self.codigo_deck)
-			print(self.deck)
 			deck_keys = list(self.deck.keys())
 			i = 0
 			i_2 = 1

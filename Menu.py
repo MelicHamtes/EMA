@@ -23,7 +23,7 @@ class Menu:
 		self.menu_SRS = tkinter.Menu(self.menu, tearoff=0)
 
 		self.menu_SRS.add_command(label='Estudar', command=self.estudar)
-		self.menu_SRS.add_command(label='Confi. cards', command=self.config_cards)
+		self.menu_SRS.add_command(label='Confi. cartões', command=self.config_cards)
 		self.menu.add_cascade(label='SRS', menu=self.menu_SRS)
 
 		self.menuInfo = tkinter.Menu(self.menu, tearoff=0)
@@ -40,20 +40,20 @@ class Menu:
 		self.label =  tkinter.Label(self.frame_1, text='Bem vindo, ')
 		self.label_1 = tkinter.Label(self.frame_1, text=self.nome_user, font=('Arial','10', 'bold'))
 
-		self.label_2 = tkinter.Label(self.frame_2, text='Baralhos:', font=('Arial','10', 'bold'))
-		self.label_3 = tkinter.Label(self.frame_2)
+		#self.label_2 = tkinter.Label(self.frame_2, text='Baralhos:', font=('Arial','10', 'bold'))
+		#self.label_3 = tkinter.Label(self.frame_2)
 
-		self.label_4 = tkinter.Label(self.frame_3, text='Cartões:', font=('Arial','10', 'bold'))
-		self.label_5 = tkinter.Label(self.frame_3)
+		#self.label_4 = tkinter.Label(self.frame_3, text='Cartões:', font=('Arial','10', 'bold'))
+		#self.label_5 = tkinter.Label(self.frame_3)
 
 		self.label.pack(side=tkinter.LEFT)
 		self.label_1.pack(side=tkinter.RIGHT)
 
-		self.label_2.pack(side=tkinter.RIGHT)
-		self.label_3.pack(side=tkinter.LEFT)
+		#self.label_2.pack(side=tkinter.RIGHT)
+		#self.label_3.pack(side=tkinter.LEFT)
 
-		self.label_4.pack(side=tkinter.LEFT)
-		self.label_5.pack(side=tkinter.RIGHT)
+		#self.label_4.pack(side=tkinter.LEFT)
+		#self.label_5.pack(side=tkinter.RIGHT)
 
 		self.frame_1.pack(anchor=tkinter.CENTER)
 		self.frame_2.pack(anchor=tkinter.CENTER)

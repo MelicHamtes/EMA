@@ -67,7 +67,7 @@ class TelaLogin:
         self.Cadastro = Label(self.quintoContainer,text="Ainda não cadastrado? Clique aqui->")
         self.Cadastro['font'] = self.fontePadrao
         self.Cadastro.pack(side=LEFT)
-        self.BtC = Button(self.quintoContainer,text="Cadastrar-se", width= 8, command=self.cadastrar_toplevel)
+        self.BtC = Button(self.quintoContainer,text="Cadastrar-se", width= 10, command=self.cadastrar_toplevel)
         self.BtC['font'] = ("Calibri", "8")
         self.BtC.pack(side=LEFT)
 
@@ -80,7 +80,6 @@ class TelaLogin:
         self.bd = Banco_dados()
         self.bd.conectar()
         self.login = self.bd.puxar_login()
-        print(self.login)
 
         if usuario != '' and senha != '':
             user = self.bd.puxar_login(username=usuario)
@@ -218,6 +217,7 @@ class TelaLogin:
         senha = self.senha.get()
         email = self.emailEntry.get()
         username = self.usernameEntry.get()
+        senha_repetição = self.repitaSenha.get()
         self.usuario_control = Usuario() 
         self.usuario_control.nome = nome
         self.usuario_control.senha = senha
@@ -232,44 +232,49 @@ class TelaLogin:
         erro_2 = True
         erro_3 = True
         erro_4 = True      
+        if senha == senha_repetição:   
+            try:
+                if self.usuario_control.nome == 'nome não pode conter números' or self.usuario_control.nome == 'nome está vazio':
+                    erro_1 = False
+                if self.usuario_control.senha == 'número de caracteres da senha insuficiente, mínimo 6' or self.usuario_control.senha == 'senha está vazia':
+                    erro_2 = False
+                if self.usuario_control.email == 'email está vazio' or self.usuario_control.email == 'email não contem endereço correto':
+                    erro_3 = False
+                if self.usuario_control.username == 'número de caracteres de usuário insuficiente, mínimo 4' or self.usuario_control.username == 'username está vazio':
+                    erro_4 = False
 
-        try:
-            if self.usuario_control.nome == 'nome não pode conter números' or self.usuario_control.nome == 'nome está vazio':
-                erro_1 = False
-            if self.usuario_control.senha == 'número de caracteres da senha insuficiente, mínimo 6' or self.usuario_control.senha == 'senha está vazia':
-                erro_2 = False
-            if self.usuario_control.email == 'email está vazio' or self.usuario_control.email == 'email não contem endereço correto':
-                erro_3 = False
-            if self.usuario_control.username == 'número de caracteres de usuário insuficiente, mínimo 4' or self.usuario_control.username == 'username está vazio':
-                erro_4 = False
-            if erro_1 == False and erro_2 == False and erro_3 == False and erro_4 == False:
-                raise Exception(self.usuario_control.nome + '\n' + self.usuario_control.senha + '\n' + self.usuario_control.email + '\n' + self.usuario_control.username)
-            elif erro_1 == False or erro_2 == False or erro_3 == False or erro_4 == False:
-                erro_raise = ''
-                n_erros = 1
-                if erro_1 == False:
-                    erro_raise =  str(n_erros) + '- ' + self.usuario_control.nome + '\n'
-                if erro_2 == False:
-                    erro_raise = erro_raise + '\n' +str(n_erros) + '- ' + self.usuario_control.senha + '\n'
-                    n_erros = n_erros + 1
-                if erro_3 == False:
-                    erro_raise = erro_raise + '\n' +str(n_erros) + '- ' + self.usuario_control.email + '\n'
-                    n_erros = n_erros + 1
-                if erro_4 == False:
-                    erro_raise = erro_raise + '\n' + str(n_erros) + '- ' +  self.usuario_control.username
-                    n_erros = n_erros + 1
-                raise Exception(erro_raise)
-            elif user:
-                raise AttributeError('Usuario já cadastrado')
-            else:
-                bd = Banco_dados()
-                bd.conectar()
-                bd.criar_login(self.usuario_control.nome,self.usuario_control.username,self.usuario_control.senha, self.usuario_control.email)            
-                self.sair()
-        except Exception as error:
-            messagebox.showerror('Erros', error)
-        except AttributeError:
-            messagebox.showerror('Erro','username já registrado')
+                if erro_1 == False and erro_2 == False and erro_3 == False and erro_4 == False:
+                    raise Exception(self.usuario_control.nome + '\n' + self.usuario_control.senha + '\n' + self.usuario_control.email + '\n' + self.usuario_control.username)
+                elif erro_1 == False or erro_2 == False or erro_3 == False or erro_4 == False:
+                    erro_raise = ''
+                    n_erros = 1
+                    if erro_1 == False:
+                        erro_raise =  str(n_erros) + '- ' + self.usuario_control.nome + '\n'
+                    if erro_2 == False:
+                        erro_raise = erro_raise + '\n' +str(n_erros) + '- ' + self.usuario_control.senha + '\n'
+                        n_erros = n_erros + 1
+                    if erro_3 == False:
+                        erro_raise = erro_raise + '\n' +str(n_erros) + '- ' + self.usuario_control.email + '\n'
+                        n_erros = n_erros + 1
+                    if erro_4 == False:
+                        erro_raise = erro_raise + '\n' + str(n_erros) + '- ' +  self.usuario_control.username
+                        n_erros = n_erros + 1
+                    raise Exception(erro_raise)
+                elif user:
+                    raise AttributeError('Usuario já cadastrado')
+                else:
+                    bd = Banco_dados()
+                    bd.conectar()
+                    bd.criar_login(self.usuario_control.nome,self.usuario_control.username,self.usuario_control.senha, self.usuario_control.email)
+                    messagebox.showinfo('Sucesso', 'Usuário criado com sucesso')            
+                    self.sair()
+        
+            except Exception as error:
+                messagebox.showerror('Erros', error)
+            except AttributeError:
+                messagebox.showerror('Erro','username já registrado')
+        else:
+            messagebox.showerror('Login', 'senhas não batem')
 
     def sair(self):
         self.master.destroy()

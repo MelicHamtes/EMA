@@ -24,7 +24,7 @@ class Deck:
 					cont += 1	
 			self._deck = deck
 		else:
-			self._deck = 'Erro: deck está vazio'
+			self._deck = 'Erro: baralho está vazio'
 
 	@property
 	def frente(self):

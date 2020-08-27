@@ -50,10 +50,10 @@ class Estudar:
 
 
 		self.frOpcao=tkinter.Frame(fram,width=170,height=210)
-		self.frDeck=tkinter.LabelFrame(self.frOpcao,text="Deck Selecionado")
+		self.frDeck=tkinter.LabelFrame(self.frOpcao,text="Baralho selecionado")
 		#self.lbD=tkinter.Label(self.frDeck,text="", font=("Arial","8","bold"))
 		#self.lbD.pack()
-		self.lbd1=tkinter.Label(self.frDeck,text="Nenhum deck selecionado",font=("Arial","8","bold"))
+		self.lbd1=tkinter.Label(self.frDeck,text="Nenhum baralho selecionado",font=("Arial","8","bold"))
 		self.lbd1.pack()
 		self.frDeck.pack(anchor=tkinter.NW)
 
@@ -121,10 +121,10 @@ class Estudar:
 			codigo = bd.puxar_codigo_deck(self.item_selecionado_listbox)
 			deck = bd.puxar_deck(codigo)
 			self.n_deck = len(deck.keys()) 
-			self.lbd1['text'] = 'Nome: ' + self.item_selecionado_listbox + '\n' + 'Cards: ' + str(self.n_deck)
+			self.lbd1['text'] = 'Nome: ' + self.item_selecionado_listbox + '\n' + 'Cartões: ' + str(self.n_deck)
 
 		except(IndexError):
-			messagebox.showerror('Erro','Nenhum deck foi selecionado')
+			messagebox.showerror('Erro','Nenhum baralho foi selecionado')
 		
 	def iniciar(self):
 		try:

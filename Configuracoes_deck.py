@@ -12,7 +12,7 @@ class Configuracoes_deck:
 	def __init__(self, usuario=None):
 		self.usuario = usuario
 		self.janela_configuracoes = tkinter.Tk()
-		self.janela_configuracoes.title('Decks')
+		self.janela_configuracoes.title('Baralhos')
 		self.control = Deck()
 		self.janela_configuracoes.resizable(0,0)
 		self.janela_configuracoes.geometry('+550+350')
@@ -34,17 +34,17 @@ class Configuracoes_deck:
 
 		self.frame = tkinter.Frame(self.janela_configuracoes)
 		self.frame.pack(anchor=tkinter.CENTER)
-		self.mb =  tkinter.Menubutton ( self.frame, text = "Deck", relief = tkinter.RAISED )
+		self.mb =  tkinter.Menubutton ( self.frame, text = "Baralho", relief = tkinter.RAISED )
 		self.mb.pack(side=tkinter.LEFT)
 		self.mb.menu  =  tkinter.Menu ( self.mb, tearoff = 0 )
 		self.mb["menu"]  =  self.mb.menu
 
 		self.mb.menu.add_command(label='Criar', command=self.janela_adicionar_decks)
 
-		self.bt2 = tkinter.Button(self.frame, text='Abrir Deck', command=self.janela_abrir_decks)
+		self.bt2 = tkinter.Button(self.frame, text='Abrir baralho', command=self.janela_abrir_decks)
 		self.bt2.pack(side=tkinter.LEFT)
 		
-		self.mb.menu.add_command(label='Editar cards', command=self.janela_editar_decks)
+		self.mb.menu.add_command(label='Editar cartões', command=self.janela_editar_decks)
 		self.mb.menu.add_command(label='Deletar', command=self.janela_deletar_decks)
 		self.mb.menu.add_command(label='Renomear', command=self.janela_renomear_deck)
 		self.mb.pack()
@@ -89,7 +89,7 @@ class Configuracoes_deck:
 		self.toplevel_3.protocol('WM_DELETE_WINDOW', lambda: self.fechar_toplevel(self.toplevel_3)) 
 		self.toplevel_3.minsize(170,210)
 		self.toplevel_3.maxsize(170,210)
-		self.toplevel_3.title('Decks')
+		self.toplevel_3.title('Baralhos')
 		self.listbox_2 = tkinter.Listbox(self.toplevel_3, font='-size 10', width=24, height=10, bd=0)
 		self.listbox_2.pack()
 
@@ -105,7 +105,7 @@ class Configuracoes_deck:
 		self.toplevel_4.protocol('WM_DELETE_WINDOW', lambda: self.fechar_toplevel(self.toplevel_4)) 
 		self.toplevel_4.minsize(170,210)
 		self.toplevel_4.maxsize(170,210)
-		self.toplevel_4.title('Decks')
+		self.toplevel_4.title('Baralhos')
 		self.listbox_3 = tkinter.Listbox(self.toplevel_4, font='-size 10', width=24, height=10, bd=0)
 		self.listbox_3.pack()
 
@@ -140,17 +140,18 @@ class Configuracoes_deck:
 
 			if self.verificar_nome_deck(self.control.deck) == False:
 				raise TypeError('Deck com o mesmo nome já existente')
-			elif self.control.deck == 'Erro: deck está vazio':
+			elif self.control.deck == 'Erro: baralho está vazio':
 				raise Exception('Vazio') 
 
 			bd = Banco_dados()
 			bd.conectar()
 			bd.inserir_deck(self.control.deck, self.usuario)
+			messagebox.showinfo('Sucesso', 'Baralho criado com sucesso')
 			bd.fechar_banco()
 			self.atualizar()
 
 		except (TypeError):
-			messagebox.showerror('Erro','Já existe um deck com esse nome')
+			messagebox.showerror('Erro','Já existe um baralho com esse nome')
 		except (Exception):
 			messagebox.showerror('Erro','Nada foi escrito')	
 
@@ -165,7 +166,7 @@ class Configuracoes_deck:
 			idc = Editar_cartoes(item_selecionado_listbox)
 			config_deck = Configuracoes_deck(self.usuario)
 		except(IndexError):
-			messagebox.showerror('Erro', 'Nenhum deck foi selecionado')
+			messagebox.showerror('Erro', 'Nenhum baralho foi selecionado')
 
 	def item_selecionado_excluir(self):
 		try:
@@ -179,10 +180,11 @@ class Configuracoes_deck:
 				bd = Banco_dados()
 				bd.conectar()
 				bd.deletar_deck(item_selecionado_listbox)
+				messagebox.showinfo('Sucesso', 'Banco excluído com sucesso')
 				bd.fechar_banco()
 				self.atualizar()
 		except(IndexError):
-			messagebox.showerror('Erro','Nenhum deck foi selecionado')
+			messagebox.showerror('Erro','Nenhum baralho foi selecionado')
 
 	def item_selecionado_renomear(self):
 		try:
@@ -207,7 +209,7 @@ class Configuracoes_deck:
 			bt.pack(side=tkinter.RIGHT)
 
 		except(IndexError):
-			messagebox.showerror('Erro', 'Nenhum deck foi selecionado')
+			messagebox.showerror('Erro', 'Nenhum baralho foi selecionado')
 
 	def item_selecionado_renomear_2(self, item_selecionado_listbox):
 		try:
@@ -222,13 +224,14 @@ class Configuracoes_deck:
 				self.control.deck = novo_nome
 				if self.verificar_nome_deck(self.control.deck) == False:
 					raise TypeError('Nome existente')
-				elif self.control.deck == 'Erro: deck está vazio':
+				elif self.control.deck == 'Erro: baralho está vazio':
 					raise Exception('Vazio')
 				bd.renomear_deck(self.control.deck, codigo)
+				messagebox.showinfo('Sucesso', 'Baraho renomeado com sucesso')
 				bd.fechar_banco()
 				self.atualizar()
 		except (TypeError):
-			messagebox.showerror('Erro','Já existe um deck com esse nome' )
+			messagebox.showerror('Erro','Já existe um baralho com esse nome' )
 		except (Exception):
 			messagebox.showerror('Erro','Deck está vazio')
 
